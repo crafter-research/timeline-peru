@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import { Timeline } from "../components/Timeline";
+import Layout from "../layouts/Layout.astro";
+
+const eventsCollection = await getCollection("events");
+
+const events = await Promise.all(
+  eventsCollection.map(async (event) => {
+    const { Content } = await render(event);
+    return {
+      id: event.id,
+      date: event.data.date,
+      title: event.data.title,
+      category: event.data.category,
+      era: event.data.era,
+      image: event.data.image,
+      content: event.body || "",
+    };
+  }),
+);
+---
+
+<Layout>
+  <Timeline client:load events={events} />
+</Layout>
