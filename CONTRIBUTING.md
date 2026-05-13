@@ -32,7 +32,8 @@ Fuente: [Wikipedia](https://es.wikipedia.org/wiki/Independencia_del_Peru)
 
 - `preinca` - Antes del Imperio Inca (~15000 a.C. - 1438)
 - `inca` - Imperio Inca (1438 - 1532)
-- `colonia` - Periodo colonial espanol (1532 - 1821)
+- `conquista` - Conquista espanola (1532 - 1572)
+- `colonia` - Virreinato del Peru (1572 - 1821)
 - `republica` - Republica del Peru (1821 - 1968)
 - `contemporaneo` - Era contemporanea (1968 - presente)
 

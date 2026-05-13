@@ -7,7 +7,7 @@ const events = defineCollection({
     date: z.coerce.date(),
     title: z.string(),
     category: z.enum(["politica", "cultura", "economia", "conflictos"]),
-    era: z.enum(["preinca", "inca", "colonia", "republica", "contemporaneo"]),
+    era: z.enum(["preinca", "inca", "conquista", "colonia", "republica", "contemporaneo"]),
     image: z.string().optional(),
   }),
 });
