@@ -1,1 +1,73 @@
+/* Editorial Timeline - Typography (must be first) */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=Source+Sans+3:wght@400;500&display=swap");
+
 @import "tailwindcss";
+
+/* Theme Layer for Tailwind v4 */
+@theme {
+  /* Colors */
+  --color-paper: #F5F3EF;
+  --color-primary: #1A1A1A;
+  --color-secondary: #6B6B6B;
+  --color-line-gray: #D4D4D4;
+  --color-accent-red: #C4342D;
+  --color-sepia-dark: #8B7355;
+  --color-sepia-light: #D4C4A8;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', 'Source Serif 4', Georgia, serif;
+  --font-sans: 'Source Sans 3', system-ui, sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-serif);
+  background-color: var(--color-paper);
+  color: var(--color-primary);
+}
+
+/* Prose styles for event content */
+.prose {
+  font-family: var(--font-serif);
+}
+
+.prose p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--color-accent-red);
+  color: white;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent-red);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
