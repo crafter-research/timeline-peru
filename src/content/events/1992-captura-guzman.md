@@ -5,6 +5,9 @@ category: conflictos
 era: contemporaneo
 ---
 
-El GEIN captura a Abimael Guzman, lider de Sendero Luminoso, en una casa de Surquillo, Lima. Su detencion marca el inicio del declive de la organizacion terrorista que habia causado cerca de 70,000 muertos. Guzman fue condenado a cadena perpetua y murio en prision en 2021.
+La Operacion Victoria culmina a las 20:40 horas con la captura de Abimael Guzman en la Calle Uno 459, urbanizacion Los Sauces, Surquillo. El Grupo Especial de Inteligencia (GEIN) de la DINCOTE, bajo la direccion del general Ketin Vidal, logra el operativo tras meses de seguimiento encubierto. Junto a Guzman son detenidos Elena Iparraguirre y otros lideres de Sendero Luminoso.
 
-Fuente: Wikipedia - Abimael Guzman
+Fuentes:
+- TVPeru: "Abimael Guzman: se conmemoran 32 anos de su captura"
+- RPP Noticias: "A 33 anos de la operacion Victoria"
+- Gestion: "La captura del siglo"

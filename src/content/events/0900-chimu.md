@@ -5,6 +5,9 @@ category: cultura
 era: preinca
 ---
 
-El Reino Chimu (900-1470 d.C.) se establece en la costa norte del Peru con capital en Chan Chan, la ciudad de adobe mas grande del mundo antiguo. Domino la region hasta su conquista por el Imperio Inca.
+El Reino Chimor (siglos VIII-XV d.C.) se establece en la costa norte del Peru con capital en Chan Chan (Trujillo), la ciudad de adobe mas grande de la America precolombina. Con nueve ciudadelas o palacios autonomos, albergo cerca de un millon de habitantes. Chan Chan fue declarada Patrimonio Mundial de la UNESCO en 1986.
 
-Fuente: Wikipedia - Reino Chimu
+Fuentes:
+- UNESCO World Heritage Centre: "Chan Chan Archaeological Zone" (whc.unesco.org/en/list/366)
+- Ministerio de Cultura: Zona Arqueologica Chan Chan (patrimoniomundial.cultura.pe)
+- MINCETUR: Ficha de Inventario Turistico N.96

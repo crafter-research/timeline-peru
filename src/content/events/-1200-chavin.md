@@ -5,6 +5,8 @@ category: cultura
 era: preinca
 ---
 
-Surge la cultura Chavin en la region de Ancash, convirtiendose en el primer gran centro ceremonial y cultural que articulo las sociedades agricolas de los Andes. Su influencia se extendio hasta aproximadamente el 200 a.C.
+El centro ceremonial de Chavin de Huantar se desarrolla entre 1500 y 550 a.C. en la confluencia de los rios Huachecsa y Mosna (Ancash). Este sitio de peregrinacion atrajo a personas de diversas partes del mundo andino, convirtiendose en un importante centro de convergencia cultural y religiosa. Destaca por su complejo sistema de galerias internas y esculturas en piedra. Fue declarado Patrimonio Mundial de la UNESCO en 1985.
 
-Fuente: Wikipedia - Historia del Peru
+Fuentes:
+- UNESCO World Heritage Centre: "Chavin (Archaeological Site)" (whc.unesco.org/es/list/330)
+- Ministerio de Cultura del Peru: Sitio Arqueologico Chavin (patrimoniomundial.cultura.pe)
