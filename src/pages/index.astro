@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import { Timeline } from "../components/Timeline";
+import { EditorialTimeline } from "../components/EditorialTimeline";
 import Layout from "../layouts/Layout.astro";
 
 const eventsCollection = await getCollection("events");
@@ -22,5 +22,5 @@ const events = await Promise.all(
 ---
 
 <Layout>
-  <Timeline client:load events={events} />
+  <EditorialTimeline client:load events={events} />
 </Layout>
