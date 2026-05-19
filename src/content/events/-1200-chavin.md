@@ -1,5 +1,5 @@
 ---
-date: -1200-01-01
+date: 1200-01-01
 title: Cultura Chavin
 category: cultura
 era: preinca

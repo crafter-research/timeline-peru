@@ -1,10 +1,10 @@
 ---
 date: 1968-10-03
-title: Golpe de Estado de Velasco Alvarado
+title: Golpe de Estado del General Juan Velasco Alvarado
 category: politica
 era: contemporaneo
 ---
 
-El general Juan Velasco Alvarado derroca al presidente Fernando Belaunde Terry e inicia el Gobierno Revolucionario de la Fuerza Armada. Implementa reformas radicales incluyendo la Reforma Agraria de 1969 y la nacionalizacion de la industria petrolera.
+El General Juan Velasco Alvarado lidera un golpe de Estado contra el presidente Fernando Belaunde Terry, derrocando al gobierno democratico e iniciando el autodenominado Gobierno Revolucionario de las Fuerzas Armadas. Velasco prometio profundas reformas sociales y economicas bajo el lema "Ni capitalismo ni comunismo".
 
-Fuente: Wikipedia - Gobierno de Juan Velasco Alvarado
+Fuente: Historia de la Republica del Peru, Jorge Basadre

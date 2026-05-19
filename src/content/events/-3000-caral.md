@@ -1,5 +1,5 @@
 ---
-date: -3000-01-01
+date: 3000-01-01
 title: Civilizacion de Caral
 category: cultura
 era: preinca

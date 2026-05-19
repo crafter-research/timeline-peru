@@ -228,3 +228,373 @@ body {
   clip: auto;
   white-space: normal;
 }
+
+/* ============================================
+   MOBILE ENHANCEMENTS - Bottom Sheet & Drawer
+   ============================================ */
+
+/* Bottom sheet slide up animation */
+@keyframes slideUpSheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bottom-sheet-slide-up {
+  animation: slideUpSheet 250ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-sheet-slide-up {
+    animation: none;
+  }
+}
+
+/* Drawer slide in from right animation */
+@keyframes slideInDrawer {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawer-slide-in {
+  animation: slideInDrawer 300ms ease-out;
+}
+
+@keyframes slideOutDrawer {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.drawer-slide-out {
+  animation: slideOutDrawer 250ms ease-in;
+}
+
+@keyframes slideDownSheet {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.bottom-sheet-slide-down {
+  animation: slideDownSheet 250ms ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-slide-in,
+  .drawer-slide-out,
+  .bottom-sheet-slide-down {
+    animation: none;
+  }
+}
+
+/* ============================================
+   ENHANCED MICROINTERACTIONS
+   ============================================ */
+
+/* Bounce effect for active states */
+@keyframes gentleBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+}
+
+button:active {
+  animation: gentleBounce 150ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:active {
+    animation: none;
+  }
+}
+
+/* Loading state for images */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.image-loading {
+  background: linear-gradient(
+    90deg,
+    var(--color-sepia-light) 0%,
+    #e8dcc8 50%,
+    var(--color-sepia-light) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-loading {
+    animation: none;
+    background: var(--color-sepia-light);
+  }
+}
+
+/* Smooth scroll snap for timeline */
+@media (min-width: 768px) {
+  .scroll-snap-x {
+    scroll-snap-type: x proximity;
+    scroll-padding: 50px;
+  }
+
+  .scroll-snap-x > * {
+    scroll-snap-align: center;
+  }
+}
+
+/* Focus ring animations */
+@keyframes focusRing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(196, 52, 45, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(196, 52, 45, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(196, 52, 45, 0);
+  }
+}
+
+.focus-ring-animate:focus-visible {
+  animation: focusRing 600ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-ring-animate:focus-visible {
+    animation: none;
+  }
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-lift {
+    transition: none;
+  }
+
+  .hover-lift:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* ============================================
+   ADVANCED MICROINTERACTIONS
+   ============================================ */
+
+/* 1. Era Transition - Subtle highlight animation on filter click */
+@keyframes eraHighlight {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(196, 52, 45, 0.08);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.era-transition {
+  transition: background-color 200ms ease-out;
+}
+
+.era-highlight-active {
+  animation: eraHighlight 600ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-transition {
+    transition: none;
+  }
+
+  .era-highlight-active {
+    animation: none;
+  }
+}
+
+/* 2. Event Reveal - Staggered event dots appearing */
+@keyframes eventReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.3) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.event-reveal {
+  animation: eventReveal 250ms ease-out forwards;
+  opacity: 0;
+}
+
+/* Stagger delays for sequential reveal (use with style attribute or JS) */
+.event-reveal-1 { animation-delay: 0ms; }
+.event-reveal-2 { animation-delay: 50ms; }
+.event-reveal-3 { animation-delay: 100ms; }
+.event-reveal-4 { animation-delay: 150ms; }
+.event-reveal-5 { animation-delay: 200ms; }
+.event-reveal-6 { animation-delay: 250ms; }
+.event-reveal-7 { animation-delay: 300ms; }
+.event-reveal-8 { animation-delay: 350ms; }
+.event-reveal-9 { animation-delay: 400ms; }
+.event-reveal-10 { animation-delay: 450ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .event-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 3. Zoom Transition - Smooth scale animation */
+.zoom-transition {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.zoom-in {
+  transform: scale(1.2);
+}
+
+.zoom-out {
+  transform: scale(0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom-transition {
+    transition: none;
+  }
+}
+
+/* 4. Mini-map Cursor - Moving position indicator */
+@keyframes miniMapPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.minimap-cursor {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              left 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              width 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.minimap-cursor-animated {
+  animation: miniMapPulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minimap-cursor {
+    transition: none;
+  }
+
+  .minimap-cursor-animated {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* 5. Category Hover Effect - Subtle glow on lanes */
+.category-lane {
+  transition: background-color 200ms ease-out,
+              box-shadow 200ms ease-out;
+}
+
+.category-lane:hover {
+  background-color: rgba(196, 52, 45, 0.03);
+  box-shadow:
+    inset 0 0 20px rgba(196, 52, 45, 0.08),
+    inset 0 1px 0 rgba(196, 52, 45, 0.1),
+    inset 0 -1px 0 rgba(196, 52, 45, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-lane {
+    transition: none;
+  }
+
+  .category-lane:hover {
+    background-color: rgba(196, 52, 45, 0.05);
+    box-shadow: none;
+  }
+}
+
+/* Category badge glow effect */
+@keyframes categoryGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(196, 52, 45, 0);
+  }
+  50% {
+    box-shadow: 0 0 8px 2px rgba(196, 52, 45, 0.3);
+  }
+}
+
+.category-badge-hover {
+  transition: box-shadow 200ms ease-out, transform 200ms ease-out;
+}
+
+.category-badge-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px 2px rgba(196, 52, 45, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-badge-hover {
+    transition: none;
+  }
+
+  .category-badge-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Additional utility: Smooth color transitions */
+.color-transition {
+  transition: color 150ms ease-out,
+              background-color 150ms ease-out,
+              border-color 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-transition {
+    transition: none;
+  }
+}

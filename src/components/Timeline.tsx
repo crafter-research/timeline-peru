@@ -206,11 +206,9 @@ export function Timeline({ events }: TimelineProps) {
                   className="w-full h-48 object-cover rounded mt-4"
                 />
               )}
-              <div
-                className="mt-4 text-stone-700 prose prose-stone prose-sm"
-                // biome-ignore lint/security/noDangerouslySetInnerHtml: Content is trusted markdown from our repo
-                dangerouslySetInnerHTML={{ __html: selectedEvent.content }}
-              />
+              <div className="mt-4 text-stone-700 prose prose-stone prose-sm">
+                <p>{selectedEvent.content}</p>
+              </div>
             </div>
           </div>
         </div>
