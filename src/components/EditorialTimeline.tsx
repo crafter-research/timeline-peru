@@ -300,7 +300,10 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     return filtered.sort((a, b) => a.date.getTime() - b.date.getTime());
   }, [events, selectedEra, debouncedSearchQuery]);
 
-  // Group events by category
+  // Group events by category with performance optimization
+  // Limit to ~50 events per category to maintain smooth rendering
+  const MAX_EVENTS_PER_CATEGORY = 50;
+
   const eventsByCategory = useMemo(() => {
     const grouped: Record<string, HistoricalEvent[]> = {
       politica: [],
@@ -313,7 +316,25 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
       grouped[event.category].push(event);
     }
 
-    return grouped;
+    // Sample events if too many, maintaining even distribution across timeline
+    const sampledGrouped: Record<string, HistoricalEvent[]> = {};
+
+    for (const [category, events] of Object.entries(grouped)) {
+      if (events.length <= MAX_EVENTS_PER_CATEGORY) {
+        sampledGrouped[category] = events;
+      } else {
+        // Sample evenly across the timeline
+        const step = events.length / MAX_EVENTS_PER_CATEGORY;
+        const sampled: HistoricalEvent[] = [];
+        for (let i = 0; i < MAX_EVENTS_PER_CATEGORY; i++) {
+          const index = Math.floor(i * step);
+          sampled.push(events[index]);
+        }
+        sampledGrouped[category] = sampled;
+      }
+    }
+
+    return sampledGrouped;
   }, [filteredEvents]);
 
   // Calculate timeline range
@@ -340,34 +361,47 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     [timelineRange],
   );
 
-  // Memoized year markers - show max 25-40 markers depending on zoom
+  // Memoized year markers - show key historical years only
   const yearMarkers = useMemo(() => {
+    // Define key years to show based on historical significance
+    const keyYears = [
+      // Pre-Inca milestones
+      -5000, -3000, -2000, -1000, -500, 0, 500, 1000,
+      // Key transitions
+      1438, // Inca Empire begins
+      1532, // Spanish Conquest
+      1572, // Colonial period begins
+      1700, 1780, // Tupac Amaru
+      1821, // Independence
+      1879, // War of the Pacific
+      1900, 1930, 1950, 1968, // Velasco
+      1980, 1990, 2000, 2010, 2020
+    ];
+
     const uniqueYears = new Map<number, HistoricalEvent>();
 
-    // Target number of markers based on zoom level
-    const targetMarkers = Math.floor(20 + (zoomLevel * 10));
-
-    // Calculate step to achieve target markers
-    const step = Math.max(1, Math.floor(filteredEvents.length / targetMarkers));
-
-    filteredEvents
-      .filter((_, index) => index % step === 0)
-      .forEach((event) => {
-        const year = event.date.getFullYear();
-        if (!uniqueYears.has(year)) {
-          uniqueYears.set(year, event);
-        }
+    // First, try to find events near key years
+    for (const targetYear of keyYears) {
+      const nearestEvent = filteredEvents.find(event => {
+        const eventYear = event.date.getFullYear();
+        return Math.abs(eventYear - targetYear) <= 10;
       });
+      if (nearestEvent && !uniqueYears.has(nearestEvent.date.getFullYear())) {
+        uniqueYears.set(nearestEvent.date.getFullYear(), nearestEvent);
+      }
+    }
 
-    // Limit to prevent overcrowding
-    const markers = Array.from(uniqueYears.values());
-    if (markers.length > 50) {
-      const finalStep = Math.ceil(markers.length / 50);
-      return markers.filter((_, i) => i % finalStep === 0);
+    // Limit to max 20 markers
+    const markers = Array.from(uniqueYears.values())
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    if (markers.length > 20) {
+      const step = Math.ceil(markers.length / 20);
+      return markers.filter((_, i) => i % step === 0);
     }
 
     return markers;
-  }, [filteredEvents, zoomLevel]);
+  }, [filteredEvents]);
 
   // Get era segments for visual backgrounds
   const eraSegments = useMemo(() => {
@@ -641,6 +675,41 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     setTheme((prev) => prev === 'light' ? 'dark' : 'light');
   }, []);
 
+  // Double-click zoom handler - zooms in and centers on the clicked position
+  const handleDoubleClickZoom = useCallback((clientX: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const relativeX = clientX - rect.left;
+    const scrollWidth = container.scrollWidth;
+    const clientWidth = container.clientWidth;
+
+    // Calculate the position ratio of the click within the container
+    const clickPosition = (container.scrollLeft + relativeX) / scrollWidth;
+
+    // Zoom in by 0.5 step (or zoom out if at max)
+    const newZoom = zoomLevel >= MAX_ZOOM ? MIN_ZOOM : Math.min(MAX_ZOOM, zoomLevel + 0.5);
+    setZoomLevel(newZoom);
+
+    // Haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(20);
+    }
+
+    // After zoom, scroll to keep the clicked position centered
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const newScrollWidth = container.scrollWidth;
+        const targetScroll = clickPosition * newScrollWidth - clientWidth / 2;
+        container.scrollTo({
+          left: Math.max(0, targetScroll),
+          behavior: 'smooth',
+        });
+      });
+    });
+  }, [zoomLevel]);
+
   if (isLoading) {
     return <TimelineSkeleton />;
   }
@@ -721,6 +790,7 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
         selectedEra={selectedEra}
         onEventClick={handleEventClick}
         onClearAllFilters={handleClearAllFilters}
+        onDoubleClickZoom={handleDoubleClickZoom}
         getEventPosition={getEventPosition}
         formatYear={formatYear}
         getEraForYear={getEraForYear}
