@@ -5,6 +5,6 @@ category: conflictos
 era: republica
 ---
 
-El monitor Huascar derrota a la corbeta chilena Esmeralda, hundiendola con su espolon. El capitan chileno Arturo Prat muere abordando el Huascar, convirtiendose en heroe nacional de Chile.
+El monitor Huáscar, comandado por Miguel Grau, derrota a la corbeta chilena Esmeralda, hundiéndola con su espolón tras un combate desigual de varias horas. El capitán chileno Arturo Prat muere abordando heroicamente el Huáscar, convirtiéndose en héroe nacional de Chile. Grau rescata a los náufragos chilenos y envía las pertenencias de Prat a su viuda, ganándose el respeto de ambas naciones y el apodo de "Caballero de los Mares".
 
-Fuente: Wikipedia - Combate Naval de Iquique
+Fuente: Historia de la Guerra del Pacífico; Archivo Naval de Iquique

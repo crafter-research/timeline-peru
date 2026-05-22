@@ -1,4 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { TimelineHeader } from "./TimelineHeader";
+import { CategoryLegend } from "./CategoryLegend";
+import { TimelineDesktop } from "./TimelineDesktop";
+import { TimelineMobile } from "./TimelineMobile";
+import { TimelineDrawer } from "./TimelineDrawer";
+import { TimelineMinimap } from "./TimelineMinimap";
+import { EasterEgg } from "./EasterEgg";
 
 interface HistoricalEvent {
   id: string;
@@ -15,22 +22,67 @@ interface EditorialTimelineProps {
 }
 
 const ERA_CONFIG = {
-  preinca: { label: "Pre-Inca", range: "15000 a.C. - 1438", color: "#FFF9E6", endYear: 1438 },
-  inca: { label: "Inca", range: "1438 - 1532", color: "#FFF4E6", endYear: 1532 },
-  conquista: { label: "Conquista", range: "1532 - 1572", color: "#FFE8E6", endYear: 1572 },
-  colonia: { label: "Colonia", range: "1572 - 1821", color: "#F0F0F5", endYear: 1821 },
-  republica: { label: "Republica", range: "1821 - 1968", color: "#E8F4F8", endYear: 1968 },
-  contemporaneo: { label: "Contemporaneo", range: "1968 - presente", color: "#F5F1E8", endYear: 2030 },
+  preinca: {
+    label: "Pre-Inca",
+    range: "15000 a.C. - 1438",
+    color: "var(--color-era-preinca-bg)",
+    borderColor: "var(--color-era-preinca-border)",
+    textColor: "var(--color-era-preinca-text)",
+    endYear: 1438
+  },
+  inca: {
+    label: "Inca",
+    range: "1438 - 1532",
+    color: "var(--color-era-inca-bg)",
+    borderColor: "var(--color-era-inca-border)",
+    textColor: "var(--color-era-inca-text)",
+    endYear: 1532
+  },
+  conquista: {
+    label: "Conquista",
+    range: "1532 - 1572",
+    color: "var(--color-era-conquista-bg)",
+    borderColor: "var(--color-era-conquista-border)",
+    textColor: "var(--color-era-conquista-text)",
+    endYear: 1572
+  },
+  colonia: {
+    label: "Colonia",
+    range: "1572 - 1821",
+    color: "var(--color-era-colonia-bg)",
+    borderColor: "var(--color-era-colonia-border)",
+    textColor: "var(--color-era-colonia-text)",
+    endYear: 1821
+  },
+  republica: {
+    label: "República",
+    range: "1821 - 1968",
+    color: "var(--color-era-republica-bg)",
+    borderColor: "var(--color-era-republica-border)",
+    textColor: "var(--color-era-republica-text)",
+    endYear: 1968
+  },
+  contemporaneo: {
+    label: "Contemporáneo",
+    range: "1968 - presente",
+    color: "var(--color-era-contemporaneo-bg)",
+    borderColor: "var(--color-era-contemporaneo-border)",
+    textColor: "var(--color-era-contemporaneo-text)",
+    endYear: 2030
+  },
 } as const;
 
 const CATEGORY_CONFIG = {
-  politica: { label: "POLÍTICA", icon: "⚖️", color: "#3B82F6", bgColor: "#EFF6FF" },
-  cultura: { label: "CULTURA", icon: "🎭", color: "#8B5CF6", bgColor: "#F5F3FF" },
-  economia: { label: "ECONOMÍA", icon: "📊", color: "#10B981", bgColor: "#ECFDF5" },
-  conflictos: { label: "CONFLICTOS", icon: "⚔️", color: "#C4342D", bgColor: "#FEF2F2" },
+  politica: { label: "POLÍTICA", icon: "⚖️", color: "var(--color-cat-politica)", bgColor: "var(--color-cat-politica-bg)" },
+  cultura: { label: "CULTURA", icon: "🎭", color: "var(--color-cat-cultura)", bgColor: "var(--color-cat-cultura-bg)" },
+  economia: { label: "ECONOMÍA", icon: "📊", color: "var(--color-cat-economia)", bgColor: "var(--color-cat-economia-bg)" },
+  conflictos: { label: "CONFLICTOS", icon: "⚔️", color: "var(--color-cat-conflictos)", bgColor: "var(--color-cat-conflictos-bg)" },
 } as const;
 
 const CATEGORY_ORDER = ["politica", "cultura", "economia", "conflictos"] as const;
+
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 3;
 
 function formatYear(date: Date): string {
   const year = date.getFullYear();
@@ -67,20 +119,32 @@ function getEraForYear(year: number): keyof typeof ERA_CONFIG {
 // Skeleton loading component
 function TimelineSkeleton() {
   return (
-    <div className="animate-pulse">
+    <div className="relative overflow-hidden">
       {/* Header skeleton */}
-      <div className="border-b border-[#D4D4D4] px-8 py-6 sticky top-0 bg-[#F5F1E8] z-40">
-        <div className="h-10 bg-[#D4D4D4] rounded w-80 mb-3" />
+      <div className="border-b border-[var(--color-border-default)] px-8 py-6 sticky top-0 bg-[var(--color-bg-primary)] z-40">
+        <div className="h-10 skeleton-shimmer rounded w-80 mb-3" />
         <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-8 w-24 bg-[#D4D4D4] rounded-full" />
+            <div
+              key={i}
+              className="h-8 w-24 skeleton-shimmer rounded-full"
+              style={{ animationDelay: `${i * 100}ms` }}
+            />
           ))}
         </div>
       </div>
-      {/* Timeline skeleton */}
+
+      {/* Timeline skeleton with stagger */}
       <div className="px-8 py-12">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-32 bg-[#D4D4D4] rounded mb-4" />
+          <div
+            key={i}
+            className="h-32 skeleton-shimmer rounded mb-4"
+            style={{
+              animationDelay: `${i * 150}ms`,
+              opacity: 1 - (i * 0.1)
+            }}
+          />
         ))}
       </div>
     </div>
@@ -88,23 +152,65 @@ function TimelineSkeleton() {
 }
 
 export function EditorialTimeline({ events }: EditorialTimelineProps) {
+  // ROUND 4: Dark mode state
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      // Check localStorage first
+      const savedTheme = localStorage.getItem('timeline-theme') as 'light' | 'dark' | null;
+      if (savedTheme) return savedTheme;
+
+      // Check system preference
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    }
+    return 'light';
+  });
+
+  // State
   const [selectedEra, setSelectedEra] = useState<string | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<HistoricalEvent | null>(
-    null,
-  );
+  const [selectedEvent, setSelectedEvent] = useState<HistoricalEvent | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [isClosing, setIsClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [zoomLevel, setZoomLevel] = useState(1.5);
+  const [zoomLevel, setZoomLevel] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedZoom = localStorage.getItem('timeline-zoom-level');
+      if (savedZoom) {
+        const parsed = parseFloat(savedZoom);
+        if (!isNaN(parsed) && parsed >= MIN_ZOOM && parsed <= MAX_ZOOM) {
+          return parsed;
+        }
+      }
+    }
+    return 1.5;
+  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollHint, setShowScrollHint] = useState(true);
+  const [showShortcutsTooltip, setShowShortcutsTooltip] = useState(false);
+  const [visibleEvents, setVisibleEvents] = useState<Set<string>>(new Set());
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [feedbackState, setFeedbackState] = useState<'success' | 'error' | null>(null);
+  const [logoClickCount, setLogoClickCount] = useState(0);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+
+  // Refs
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const mobileDrawerRef = useRef<HTMLDivElement>(null);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [showScrollHint, setShowScrollHint] = useState(true);
-  const [showShortcutsTooltip, setShowShortcutsTooltip] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const eventObserverRef = useRef<IntersectionObserver | null>(null);
+  const logoClickTimeoutRef = useRef<number | null>(null);
+
+  // ROUND 4: Apply theme to document root
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('timeline-theme', theme);
+    }
+  }, [theme]);
 
   // Simulate loading state
   useEffect(() => {
@@ -112,7 +218,61 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Debounce search query for performance with 300+ events
+  // Persist zoom level to localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('timeline-zoom-level', zoomLevel.toString());
+    }
+  }, [zoomLevel]);
+
+  // Intersection Observer for scroll-triggered reveals
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    eventObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const eventId = entry.target.getAttribute('data-event-id');
+            if (eventId) {
+              setVisibleEvents((prev) => new Set(prev).add(eventId));
+              if ('vibrate' in navigator && Math.random() < 0.1) {
+                navigator.vibrate(10);
+              }
+            }
+          }
+        });
+      },
+      { root: null, rootMargin: '0px', threshold: 0.1 }
+    );
+
+    return () => {
+      eventObserverRef.current?.disconnect();
+    };
+  }, []);
+
+  // Easter egg - 5 clicks on logo
+  const handleLogoClick = useCallback(() => {
+    setLogoClickCount((prev) => {
+      const newCount = prev + 1;
+
+      if (logoClickTimeoutRef.current) clearTimeout(logoClickTimeoutRef.current);
+      logoClickTimeoutRef.current = window.setTimeout(() => setLogoClickCount(0), 2000);
+
+      if (newCount === 5) {
+        setShowEasterEgg(true);
+        if ('vibrate' in navigator) {
+          navigator.vibrate([50, 100, 50, 100, 200]);
+        }
+        setTimeout(() => setShowEasterEgg(false), 5000);
+        return 0;
+      }
+      return newCount;
+    });
+  }, []);
+
+  // Debounce search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
@@ -120,7 +280,7 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Filter events by era and search (uses debounced query)
+  // Filter events by era and search
   const filteredEvents = useMemo(() => {
     let filtered = events;
 
@@ -180,12 +340,18 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     [timelineRange],
   );
 
-  // Memoized year markers to prevent duplicate years
+  // Memoized year markers - show max 25-40 markers depending on zoom
   const yearMarkers = useMemo(() => {
     const uniqueYears = new Map<number, HistoricalEvent>();
 
+    // Target number of markers based on zoom level
+    const targetMarkers = Math.floor(20 + (zoomLevel * 10));
+
+    // Calculate step to achieve target markers
+    const step = Math.max(1, Math.floor(filteredEvents.length / targetMarkers));
+
     filteredEvents
-      .filter((_, index) => index % Math.max(1, Math.floor(8 / zoomLevel)) === 0)
+      .filter((_, index) => index % step === 0)
       .forEach((event) => {
         const year = event.date.getFullYear();
         if (!uniqueYears.has(year)) {
@@ -193,7 +359,14 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
         }
       });
 
-    return Array.from(uniqueYears.values());
+    // Limit to prevent overcrowding
+    const markers = Array.from(uniqueYears.values());
+    if (markers.length > 50) {
+      const finalStep = Math.ceil(markers.length / 50);
+      return markers.filter((_, i) => i % finalStep === 0);
+    }
+
+    return markers;
   }, [filteredEvents, zoomLevel]);
 
   // Get era segments for visual backgrounds
@@ -251,7 +424,6 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
         const progress = maxScroll > 0 ? scrollLeft / maxScroll : 0;
         setScrollProgress(progress);
 
-        // Hide scroll hint after first scroll
         if (scrollLeft > 10 && showScrollHint) {
           setShowScrollHint(false);
         }
@@ -286,16 +458,15 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
   }, []);
 
   // Scroll to era
-  const scrollToEra = useCallback((era: keyof typeof ERA_CONFIG) => {
+  const scrollToEra = useCallback((era: string) => {
     const eraSegment = eraSegments.find(seg => seg.era === era);
     if (eraSegment) {
-      // Scroll to the middle of the era
       const midPoint = (eraSegment.startPos + eraSegment.endPos) / 2 / 100;
       scrollToPosition(midPoint);
     }
   }, [eraSegments, scrollToPosition]);
 
-  // Close drawer handler with exit animation
+  // Close drawer handler
   const handleCloseDrawer = useCallback(() => {
     setIsClosing(true);
     setTimeout(() => {
@@ -304,68 +475,66 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     }, 250);
   }, []);
 
-  // Get eras array for navigation
+  // Get eras array
   const eras = useMemo(() => Object.keys(ERA_CONFIG) as (keyof typeof ERA_CONFIG)[], []);
 
   // Keyboard shortcuts handler
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Escape key - close drawer
       if (e.key === "Escape" && selectedEvent) {
         handleCloseDrawer();
         return;
       }
 
-      // Ignore shortcuts when typing in inputs
       const target = e.target as HTMLElement;
       const isInputFocused = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
 
-      // Cmd/Ctrl+K - Focus search input
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         searchInputRef.current?.focus();
         return;
       }
 
-      // Cmd/Ctrl+0 - Reset zoom to 100%
       if ((e.metaKey || e.ctrlKey) && e.key === "0") {
         e.preventDefault();
         setZoomLevel(1);
         return;
       }
 
-      // Skip navigation shortcuts if input is focused
       if (isInputFocused) return;
 
-      // Left/Right arrows - Navigate between eras
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (!selectedEra) return;
+
         e.preventDefault();
-        const currentIndex = selectedEra
-          ? eras.indexOf(selectedEra as keyof typeof ERA_CONFIG)
-          : -1;
+        const currentIndex = eras.indexOf(selectedEra as keyof typeof ERA_CONFIG);
 
         if (e.key === "ArrowLeft") {
-          const prevIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-          const prevEra = eras[prevIndex];
-          setSelectedEra(prevEra);
-          scrollToEra(prevEra);
+          if (currentIndex > 0) {
+            const prevEra = eras[currentIndex - 1];
+            setSelectedEra(prevEra);
+            scrollToEra(prevEra);
+          } else {
+            setSelectedEra(null);
+          }
         } else {
-          const nextIndex = currentIndex < eras.length - 1 ? currentIndex + 1 : eras.length - 1;
-          const nextEra = eras[nextIndex];
-          setSelectedEra(nextEra);
-          scrollToEra(nextEra);
+          if (currentIndex < eras.length - 1) {
+            const nextEra = eras[currentIndex + 1];
+            setSelectedEra(nextEra);
+            scrollToEra(nextEra);
+          } else {
+            setSelectedEra(null);
+          }
         }
         return;
       }
 
-      // Home - Jump to start of timeline
       if (e.key === "Home") {
         e.preventDefault();
         scrollToPosition(0);
         return;
       }
 
-      // End - Jump to end of timeline
       if (e.key === "End") {
         e.preventDefault();
         scrollToPosition(1);
@@ -377,14 +546,12 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [selectedEvent, handleCloseDrawer, selectedEra, scrollToEra, scrollToPosition, eras]);
 
-  // Focus trap for drawer (supports both desktop and mobile)
+  // Focus trap for drawer
   useEffect(() => {
     if (!selectedEvent) return;
 
-    // Store last focused element
     lastFocusedElementRef.current = document.activeElement as HTMLElement;
 
-    // Focus drawer after render (try desktop first, then mobile)
     const focusTimer = setTimeout(() => {
       const drawer = drawerRef.current || mobileDrawerRef.current;
       if (drawer) {
@@ -395,7 +562,6 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
       }
     }, 100);
 
-    // Focus trap handler (works for both desktop and mobile)
     const handleFocusTrap = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
 
@@ -424,21 +590,67 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
     return () => {
       clearTimeout(focusTimer);
       document.removeEventListener("keydown", handleFocusTrap);
-      // Restore focus on close
       lastFocusedElementRef.current?.focus();
     };
   }, [selectedEvent]);
+
+  // Handler functions
+  const handleEraClick = useCallback((era: string) => {
+    const newEra = selectedEra === era ? null : era;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setSelectedEra(newEra);
+      setVisibleEvents(new Set());
+      if (newEra) {
+        scrollToEra(newEra);
+      }
+      if ('vibrate' in navigator) {
+        navigator.vibrate(15);
+      }
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 150);
+  }, [selectedEra, scrollToEra]);
+
+  const handleClearFilters = useCallback(() => {
+    setSelectedEra(null);
+  }, []);
+
+  const handleClearAllFilters = useCallback(() => {
+    setSelectedEra(null);
+    setSearchQuery("");
+  }, []);
+
+  const handleEventClick = useCallback((event: HistoricalEvent) => {
+    setSelectedEvent(event);
+  }, []);
+
+  const handleZoomIn = useCallback(() => {
+    setZoomLevel((z) => Math.min(MAX_ZOOM, z + 0.25));
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    setZoomLevel((z) => Math.max(MIN_ZOOM, z - 0.25));
+  }, []);
+
+  const handleZoomReset = useCallback(() => {
+    setZoomLevel(1);
+  }, []);
+
+  // ROUND 4: Theme toggle handler
+  const handleThemeToggle = useCallback(() => {
+    setTheme((prev) => prev === 'light' ? 'dark' : 'light');
+  }, []);
 
   if (isLoading) {
     return <TimelineSkeleton />;
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[var(--color-bg-primary)]">
       {/* Skip link for accessibility */}
       <a
         href="#timeline-main"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#C4342D] focus:text-white focus:rounded"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--color-accent-red)] focus:text-white focus:rounded"
       >
         Saltar al contenido principal
       </a>
@@ -459,807 +671,99 @@ export function EditorialTimeline({ events }: EditorialTimelineProps) {
       </div>
 
       {/* Header */}
-      <header className="border-b border-[#D4D4D4] px-8 py-6 sticky top-0 bg-[#F5F1E8] z-40 shadow-sm">
-        <div className="max-w-full">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <h1 className="font-sans text-4xl font-bold tracking-tight text-[#1A1A1A] uppercase">
-                HISTORIA DEL PERÚ
-              </h1>
-              <p className="font-sans text-sm text-[#6B6B6B] mt-1">
-                Línea de tiempo editorial
-              </p>
-            </div>
+      <TimelineHeader
+        logoClickCount={logoClickCount}
+        onLogoClick={handleLogoClick}
+        searchQuery={searchQuery}
+        debouncedSearchQuery={debouncedSearchQuery}
+        onSearchChange={(e) => setSearchQuery(e.target.value)}
+        onSearchClear={() => setSearchQuery("")}
+        searchInputRef={searchInputRef}
+        showShortcutsTooltip={showShortcutsTooltip}
+        onShortcutsTooltipShow={() => setShowShortcutsTooltip(true)}
+        onShortcutsTooltipHide={() => setShowShortcutsTooltip(false)}
+        selectedEra={selectedEra}
+        eras={eras}
+        onEraSelect={setSelectedEra}
+        onEraClick={handleEraClick}
+        onClearFilters={handleClearFilters}
+        zoomLevel={zoomLevel}
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+        onZoomReset={handleZoomReset}
+        minZoom={MIN_ZOOM}
+        maxZoom={MAX_ZOOM}
+        filteredEventsCount={filteredEvents.length}
+        isTransitioning={isTransitioning}
+        ERA_CONFIG={ERA_CONFIG}
+        theme={theme}
+        onThemeToggle={handleThemeToggle}
+      />
 
-            {/* Search */}
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <input
-                  ref={searchInputRef}
-                  type="search"
-                  placeholder="Buscar eventos..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-80 px-4 py-2 text-sm border border-[#D4D4D4] bg-white rounded-lg focus:border-[#C4342D] focus:outline-none focus:ring-2 focus:ring-[#C4342D]/20 transition-colors"
-                  aria-label="Buscar eventos (Cmd/Ctrl+K para enfocar)"
-                />
-              {searchQuery !== debouncedSearchQuery && (
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-[#C4342D] animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                </div>
-              )}
-              {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#6B6B6B] hover:text-[#1A1A1A] rounded"
-                    aria-label="Limpiar búsqueda"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                )}
-              </div>
-
-              {/* Keyboard shortcuts button */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onMouseEnter={() => setShowShortcutsTooltip(true)}
-                  onMouseLeave={() => setShowShortcutsTooltip(false)}
-                  onFocus={() => setShowShortcutsTooltip(true)}
-                  onBlur={() => setShowShortcutsTooltip(false)}
-                  className="w-8 h-8 flex items-center justify-center text-[#6B6B6B] hover:text-[#1A1A1A] hover:bg-[#F5F1E8] rounded-lg border border-[#D4D4D4] bg-white transition-colors"
-                  aria-label="Mostrar atajos de teclado"
-                >
-                  <span className="text-sm font-bold">?</span>
-                </button>
-
-                {/* Keyboard shortcuts tooltip */}
-                {showShortcutsTooltip && (
-                  <div
-                    className="absolute top-full right-0 mt-2 w-80 bg-white border-2 border-[#C4342D] rounded-lg shadow-2xl p-4 z-50"
-                    role="tooltip"
-                  >
-                    <h3 className="text-sm font-sans font-bold text-[#1A1A1A] mb-3">
-                      Atajos de teclado
-                    </h3>
-                    <div className="space-y-2 text-xs font-sans">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Buscar eventos</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          Cmd/Ctrl+K
-                        </kbd>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Restablecer zoom</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          Cmd/Ctrl+0
-                        </kbd>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Navegar entre eras</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          ← →
-                        </kbd>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Ir al inicio</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          Home
-                        </kbd>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Ir al final</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          End
-                        </kbd>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#6B6B6B]">Cerrar panel</span>
-                        <kbd className="px-2 py-1 bg-[#F5F1E8] border border-[#D4D4D4] rounded text-[#1A1A1A] font-mono">
-                          Esc
-                        </kbd>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Era Filters & Zoom Controls */}
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex flex-wrap gap-2">
-              {eras.map((era, index) => (
-                <button
-                  key={era}
-                  type="button"
-                  onClick={() => {
-                    const newEra = selectedEra === era ? null : era;
-                    setSelectedEra(newEra);
-                    if (newEra) {
-                      scrollToEra(newEra);
-                    }
-                  }}
-                  className={`px-4 py-2 text-sm font-sans rounded-full transition-all hover-lift ${
-                    selectedEra === era
-                      ? "bg-[#C4342D] text-white shadow-md"
-                      : "bg-white text-[#6B6B6B] hover:bg-[#F5F1E8] border border-[#D4D4D4]"
-                  }`}
-                  aria-pressed={selectedEra === era}
-                  aria-label={`${ERA_CONFIG[era].label} (Navegar con flechas ← →)`}
-                >
-                  {ERA_CONFIG[era].label}
-                </button>
-              ))}
-              {selectedEra && (
-                <button
-                  type="button"
-                  onClick={() => setSelectedEra(null)}
-                  className="px-4 py-2 text-sm font-sans text-[#C4342D] hover:underline"
-                >
-                  Limpiar filtros
-                </button>
-              )}
-            </div>
-
-            {/* Zoom Controls */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-sans text-[#6B6B6B] font-medium">
-                ZOOM
-              </span>
-              <div className="flex gap-1 border border-[#D4D4D4] rounded-lg p-1 bg-white">
-                <button
-                  type="button"
-                  onClick={() => setZoomLevel((z) => Math.max(0.5, z - 0.25))}
-                  className="px-3 py-1 text-sm font-sans text-[#6B6B6B] hover:text-[#1A1A1A] hover:bg-[#F5F1E8] rounded transition-colors"
-                  aria-label="Reducir zoom"
-                  disabled={zoomLevel <= 0.5}
-                >
-                  -
-                </button>
-                <span className="px-3 py-1 text-sm font-sans text-[#1A1A1A] font-medium min-w-[4rem] text-center">
-                  {Math.round(zoomLevel * 100)}%
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setZoomLevel((z) => Math.min(3, z + 0.25))}
-                  className="px-3 py-1 text-sm font-sans text-[#6B6B6B] hover:text-[#1A1A1A] hover:bg-[#F5F1E8] rounded transition-colors"
-                  aria-label="Aumentar zoom"
-                  disabled={zoomLevel >= 3}
-                >
-                  +
-                </button>
-                {zoomLevel !== 1 && (
-                  <button
-                    type="button"
-                    onClick={() => setZoomLevel(1)}
-                    className="px-3 py-1 text-xs font-sans text-[#C4342D] hover:bg-[#FEF2F2] rounded transition-colors"
-                    aria-label="Restablecer zoom a 100% (Cmd/Ctrl+0)"
-                  >
-                    Reset
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Results count */}
-          {searchQuery && (
-            <div className="mt-2 text-sm text-[#6B6B6B]">
-              {filteredEvents.length === 0
-                ? "No se encontraron eventos"
-                : `${filteredEvents.length} evento${filteredEvents.length !== 1 ? "s" : ""} encontrado${filteredEvents.length !== 1 ? "s" : ""}`}
-            </div>
-          )}
-        </div>
-      </header>
+      {/* Easter Egg */}
+      <EasterEgg show={showEasterEgg} onClose={() => setShowEasterEgg(false)} />
 
       {/* Legend */}
-      <div className="border-b border-[#D4D4D4] px-8 py-3 bg-white sticky top-[7.5rem] z-30">
-        <div className="flex items-center gap-6">
-          <span className="text-xs font-sans text-[#6B6B6B] font-bold uppercase tracking-wider">
-            Categorías
-          </span>
-          <div className="flex flex-wrap gap-4">
-            {CATEGORY_ORDER.map((category) => {
-              const config = CATEGORY_CONFIG[category];
-              return (
-                <div
-                  key={category}
-                  className="flex items-center gap-2"
-                >
-                  <div
-                    className="w-3 h-3 rounded-full border-2"
-                    style={{
-                      backgroundColor: config.color,
-                      borderColor: "white",
-                    }}
-                    aria-hidden="true"
-                  />
-                  <span className="text-xs">{config.icon}</span>
-                  <span className="text-xs font-sans text-[#1A1A1A] font-medium">
-                    {config.label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <CategoryLegend CATEGORY_ORDER={CATEGORY_ORDER} CATEGORY_CONFIG={CATEGORY_CONFIG} />
 
-      {/* 4-Lane Timeline - Desktop */}
-      <main
-        id="timeline-main"
-        className="hidden md:block relative"
-        role="region"
-        aria-label="Línea de tiempo histórica de cuatro carriles"
-      >
-        {/* Scroll hint indicator for mobile/touch devices */}
-        {showScrollHint && (
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
-            <div className="bg-[#C4342D] text-white px-6 py-3 rounded-full shadow-lg text-sm font-sans flex items-center gap-2 animate-bounce">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                />
-              </svg>
-              <span>Desliza para explorar</span>
-            </div>
-          </div>
-        )}
+      {/* Desktop Timeline */}
+      <TimelineDesktop
+        scrollContainerRef={scrollContainerRef}
+        isTransitioning={isTransitioning}
+        zoomLevel={zoomLevel}
+        eraSegments={eraSegments}
+        yearMarkers={yearMarkers}
+        eventsByCategory={eventsByCategory}
+        visibleEvents={visibleEvents}
+        showScrollHint={showScrollHint}
+        filteredEvents={filteredEvents}
+        searchQuery={searchQuery}
+        selectedEra={selectedEra}
+        onEventClick={handleEventClick}
+        onClearAllFilters={handleClearAllFilters}
+        getEventPosition={getEventPosition}
+        formatYear={formatYear}
+        getEraForYear={getEraForYear}
+        eventObserverRef={eventObserverRef}
+        setFeedbackState={setFeedbackState}
+        ERA_CONFIG={ERA_CONFIG}
+        CATEGORY_CONFIG={CATEGORY_CONFIG}
+        CATEGORY_ORDER={CATEGORY_ORDER}
+      />
 
-        {/* Timeline Container */}
-        <div
-          ref={scrollContainerRef}
-          className="overflow-x-auto overflow-y-hidden"
-          style={{
-            overscrollBehavior: "contain",
-            WebkitOverflowScrolling: "touch",
-          }}
-        >
-          <div
-            className="relative min-w-max transition-all duration-300"
-            style={{ width: `${500 * zoomLevel}%` }}
-          >
-            {/* Era background segments */}
-            <div className="absolute inset-0 pointer-events-none">
-              {eraSegments.map((segment) => (
-                <div
-                  key={segment.era}
-                  className="absolute top-0 bottom-0 transition-all duration-300"
-                  style={{
-                    left: `${segment.startPos}%`,
-                    width: `${segment.endPos - segment.startPos}%`,
-                    backgroundColor: ERA_CONFIG[segment.era].color,
-                  }}
-                />
-              ))}
-            </div>
+      {/* Mobile Timeline */}
+      <TimelineMobile
+        filteredEvents={filteredEvents}
+        onEventClick={handleEventClick}
+        formatYear={formatYear}
+        ERA_CONFIG={ERA_CONFIG}
+        CATEGORY_CONFIG={CATEGORY_CONFIG}
+      />
 
-            {/* Year markers at top */}
-            <div className="sticky top-0 z-20 bg-transparent border-b border-[#D4D4D4] px-8 py-4">
-              <div className="relative h-12">
-                {yearMarkers.map((event) => {
-                  const position = getEventPosition(event.date);
-                  const eventYear = event.date.getFullYear();
-                  const era = getEraForYear(eventYear);
+      {/* Minimap */}
+      <TimelineMinimap
+        eraSegments={eraSegments}
+        selectedEra={selectedEra}
+        scrollProgress={scrollProgress}
+        filteredEvents={filteredEvents}
+        onScrollToEra={scrollToEra}
+        onScrollToPosition={scrollToPosition}
+        getEventPosition={getEventPosition}
+        ERA_CONFIG={ERA_CONFIG}
+        CATEGORY_CONFIG={CATEGORY_CONFIG}
+      />
 
-                  return (
-                    <div
-                      key={event.id}
-                      className="absolute top-0 group"
-                      style={{ left: `${position}%` }}
-                    >
-                      {/* Year label - more prominent */}
-                      <div className="flex flex-col items-center">
-                        <div className="text-sm font-sans text-[#1A1A1A] whitespace-nowrap font-bold tracking-tight mb-1">
-                          {formatYear(event.date)}
-                        </div>
-                        <div className="w-px h-4 bg-[#C4342D]/40" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Category Lanes */}
-            <div className="relative">
-              {CATEGORY_ORDER.map((category) => {
-                const categoryEvents = eventsByCategory[category];
-                const config = CATEGORY_CONFIG[category];
-
-                return (
-                  <div
-                    key={category}
-                    className="relative border-b border-[#D4D4D4] category-lane"
-                    style={{
-                      backgroundColor: "transparent",
-                      height: "180px",
-                    }}
-                  >
-                    {/* Category Label - Fixed on left */}
-                    <div className="absolute left-0 top-0 bottom-0 z-10 bg-[#F5F1E8] border-r border-[#D4D4D4] px-6 flex items-center shadow-sm">
-                      <div className="text-left">
-                        <div className="text-2xl mb-1">{config.icon}</div>
-                        <div className="text-xs font-sans font-bold text-[#1A1A1A] tracking-wider">
-                          {config.label}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Timeline content area */}
-                    <div className="relative h-full ml-32">
-                      {/* Vertical date lines */}
-                      {yearMarkers.map((event) => {
-                        const position = getEventPosition(event.date);
-                        return (
-                          <div
-                            key={event.id}
-                            className="absolute top-0 bottom-0 w-px bg-[#C4342D]/15"
-                            style={{ left: `${position}%` }}
-                          />
-                        );
-                      })}
-
-                      {/* Horizontal center line */}
-                      <div
-                        className="absolute left-0 right-0 top-1/2 h-px bg-[#D4D4D4]"
-                        aria-hidden="true"
-                      />
-
-                      {/* Events for this category */}
-                      {categoryEvents.map((event) => {
-                        const position = getEventPosition(event.date);
-
-                        return (
-                          <button
-                            key={event.id}
-                            type="button"
-                            onClick={() => setSelectedEvent(event)}
-                            className="absolute top-1/2 -translate-y-1/2 group"
-                            style={{ left: `${position}%` }}
-                            aria-label={`${event.title}, ${formatYear(event.date)}, categoría ${CATEGORY_CONFIG[category].label}`}
-                            aria-describedby={`tooltip-${event.id}`}
-                          >
-                            {/* Invisible larger click target for accessibility (44x44 minimum) */}
-                            <div
-                              className="absolute -inset-4 cursor-pointer"
-                              aria-hidden="true"
-                            />
-
-                            {/* Event dot with enhanced hover */}
-                            <div className="relative flex flex-col items-center">
-                              <div
-                                className="w-4 h-4 rounded-full border-2 transition-all duration-300 group-hover:scale-[1.8] group-focus-visible:scale-[1.8] shadow-lg"
-                                style={{
-                                  backgroundColor: config.color,
-                                  borderColor: "white",
-                                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                                }}
-                              />
-
-                              {/* Pulse ring on hover */}
-                              <div
-                                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 animate-ping"
-                                style={{
-                                  backgroundColor: config.color,
-                                }}
-                              />
-
-                              {/* Tooltip on hover/focus */}
-                              <div
-                                id={`tooltip-${event.id}`}
-                                role="tooltip"
-                                className="absolute top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-all duration-200 pointer-events-none bg-white border-2 px-4 py-3 rounded-lg shadow-2xl z-30 max-w-xs"
-                                style={{
-                                  borderColor: config.color,
-                                  whiteSpace: "normal",
-                                }}
-                              >
-                                <div className="text-xs font-sans font-bold text-[#1A1A1A] mb-1 break-words">
-                                  {event.title}
-                                </div>
-                                <div className="text-xs font-sans text-[#6B6B6B]">
-                                  {formatYear(event.date)}
-                                </div>
-                                <div
-                                  className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 border-t-2 border-l-2 bg-white"
-                                  style={{ borderColor: config.color }}
-                                />
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Empty state when no results */}
-        {filteredEvents.length === 0 && (
-          <div
-            className="flex items-center justify-center h-96"
-            role="status"
-          >
-            <div className="text-center">
-              <svg
-                className="w-16 h-16 mx-auto mb-4 text-[#D4D4D4]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <h3 className="font-sans text-xl font-bold text-[#1A1A1A] mb-2">
-                No se encontraron eventos
-              </h3>
-              <p className="text-sm text-[#6B6B6B] mb-4">
-                Intenta ajustar los filtros o buscar otro término
-              </p>
-              {(selectedEra || searchQuery) && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedEra(null);
-                    setSearchQuery("");
-                  }}
-                  className="px-4 py-2 bg-[#C4342D] text-white rounded-lg hover:bg-[#A42D26] transition-colors"
-                >
-                  Limpiar todos los filtros
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Enhanced Mini-map navigation at bottom */}
-        <div className="sticky bottom-0 bg-[#F5F1E8] border-t border-[#D4D4D4] px-8 py-4 z-30 shadow-lg">
-          <div
-            className="space-y-3"
-            role="navigation"
-            aria-label="Navegación de progreso de línea de tiempo"
-          >
-            {/* Era labels */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-sans text-[#6B6B6B] whitespace-nowrap font-bold uppercase tracking-wider">
-                Eras
-              </span>
-              <div className="flex-1 flex gap-1">
-                {eraSegments.map((segment) => (
-                  <button
-                    key={segment.era}
-                    type="button"
-                    onClick={() => scrollToEra(segment.era)}
-                    className="text-xs font-sans px-3 py-1 rounded-full transition-all hover:scale-105 hover:shadow-md"
-                    style={{
-                      flex: segment.endPos - segment.startPos,
-                      backgroundColor: ERA_CONFIG[segment.era].color,
-                      border: selectedEra === segment.era ? "2px solid #C4342D" : "1px solid #D4D4D4",
-                      fontWeight: selectedEra === segment.era ? "bold" : "normal",
-                    }}
-                    title={`${ERA_CONFIG[segment.era].label}: ${ERA_CONFIG[segment.era].range}`}
-                    aria-label={`Navegar a ${ERA_CONFIG[segment.era].label} (${ERA_CONFIG[segment.era].range})`}
-                  >
-                    {ERA_CONFIG[segment.era].label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Progress bar */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-sans text-[#6B6B6B] whitespace-nowrap font-bold uppercase tracking-wider">
-                Posición
-              </span>
-              <div className="flex-1 relative">
-                {/* Clickable background for jumping */}
-                <button
-                  type="button"
-                  className="w-full h-14 bg-white border border-[#D4D4D4] relative rounded-lg overflow-hidden cursor-pointer group"
-                  onClick={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const percentage = x / rect.width;
-                    scrollToPosition(percentage);
-                  }}
-                  aria-label="Navegar en la línea de tiempo"
-                >
-                  {/* Era backgrounds in minimap */}
-                  {eraSegments.map((segment) => (
-                    <div
-                      key={segment.era}
-                      className="absolute top-0 bottom-0 transition-opacity group-hover:opacity-70"
-                      style={{
-                        left: `${segment.startPos}%`,
-                        width: `${segment.endPos - segment.startPos}%`,
-                        backgroundColor: ERA_CONFIG[segment.era].color,
-                      }}
-                    />
-                  ))}
-
-                  {/* Progress indicator */}
-                  <div
-                    className="absolute top-0 bottom-0 bg-[#C4342D]/30 border-r-2 border-[#C4342D] transition-all duration-100"
-                    style={{ width: `${scrollProgress * 100}%` }}
-                  />
-
-                  {/* Event markers */}
-                  {filteredEvents.map((event) => {
-                    const position = getEventPosition(event.date);
-                    const config = CATEGORY_CONFIG[event.category];
-                    return (
-                      <div
-                        key={event.id}
-                        className="absolute top-0 bottom-0 w-0.5 transition-opacity group-hover:opacity-100 opacity-60"
-                        style={{
-                          left: `${position}%`,
-                          backgroundColor: config.color,
-                        }}
-                        title={event.title}
-                      />
-                    );
-                  })}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Mobile Timeline - Vertical Stacked */}
-      <main className="md:hidden px-4 py-6">
-        <div className="space-y-6">
-          {filteredEvents.map((event) => (
-            <button
-              key={event.id}
-              type="button"
-              onClick={() => setSelectedEvent(event)}
-              className="w-full text-left event-fade-in hover-lift"
-            >
-              <div className="border border-[#D4D4D4] bg-white p-4 rounded-lg hover:border-[#C4342D] transition-colors">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">
-                    {CATEGORY_CONFIG[event.category].icon}
-                  </span>
-                  <span className="text-xs font-sans font-bold text-[#C4342D]">
-                    {formatYear(event.date)}
-                  </span>
-                  <span className="text-xs font-sans text-[#6B6B6B]">
-                    {CATEGORY_CONFIG[event.category].label}
-                  </span>
-                </div>
-                <h3 className="font-sans text-lg font-bold text-[#1A1A1A]">
-                  {event.title}
-                </h3>
-                <p className="text-xs font-sans text-[#6B6B6B] mt-1">
-                  {ERA_CONFIG[event.era as keyof typeof ERA_CONFIG]?.label}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </main>
-
-      {/* Side Drawer - Desktop */}
-      {selectedEvent && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/40 z-50 backdrop-blur-sm modal-backdrop"
-            onClick={handleCloseDrawer}
-            role="presentation"
-            aria-hidden="true"
-          />
-
-          {/* Drawer - Desktop */}
-          <div
-            ref={drawerRef}
-            className={`hidden md:block fixed top-0 right-0 bottom-0 w-[500px] bg-white shadow-2xl z-50 overflow-y-auto ${
-              isClosing ? "drawer-slide-out" : "drawer-slide-in"
-            }`}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="drawer-title"
-          >
-            {/* Drawer Header */}
-            <div className="sticky top-0 bg-white border-b border-[#D4D4D4] px-6 py-5 flex items-start justify-between gap-4 z-10">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 text-xs font-sans text-[#6B6B6B] uppercase tracking-wider mb-2">
-                  <span className="text-lg">
-                    {CATEGORY_CONFIG[selectedEvent.category].icon}
-                  </span>
-                  <span>{CATEGORY_CONFIG[selectedEvent.category].label}</span>
-                  <span>•</span>
-                  <span>
-                    {
-                      ERA_CONFIG[selectedEvent.era as keyof typeof ERA_CONFIG]
-                        ?.label
-                    }
-                  </span>
-                </div>
-                <h2
-                  id="drawer-title"
-                  className="font-sans text-2xl md:text-3xl font-bold text-[#1A1A1A] leading-tight break-words"
-                >
-                  {selectedEvent.title}
-                </h2>
-                <p className="text-lg font-sans text-[#C4342D] mt-2 font-medium">
-                  {formatFullDate(selectedEvent.date)}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={handleCloseDrawer}
-                className="p-2 text-[#6B6B6B] hover:text-[#1A1A1A] rounded-lg hover:bg-[#F5F1E8] transition-colors flex-shrink-0"
-                aria-label="Cerrar"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Drawer Content */}
-            <div className="px-6 py-6">
-              {selectedEvent.image && (
-                <figure className="mb-6">
-                  <img
-                    src={selectedEvent.image}
-                    alt={`Imagen histórica: ${selectedEvent.title}`}
-                    className="w-full aspect-video object-cover rounded-lg"
-                    loading="eager"
-                  />
-                  <figcaption className="text-xs font-sans italic text-[#6B6B6B] mt-2 text-center">
-                    {selectedEvent.title}
-                  </figcaption>
-                </figure>
-              )}
-
-              <div className="font-sans text-base text-[#1A1A1A] leading-relaxed space-y-4">
-                <p>{selectedEvent.content}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Sheet - Mobile */}
-          <div
-            ref={mobileDrawerRef}
-            className={`md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl z-50 max-h-[85vh] overflow-y-auto ${
-              isClosing ? "bottom-sheet-slide-down" : "bottom-sheet-slide-up"
-            }`}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mobile-drawer-title"
-          >
-            {/* Drag handle */}
-            <div className="sticky top-0 bg-white border-b border-[#D4D4D4] px-4 py-3 z-10">
-              <div className="w-12 h-1 bg-[#D4D4D4] rounded-full mx-auto mb-3" />
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 text-xs font-sans text-[#6B6B6B] uppercase tracking-wider mb-1">
-                    <span>{CATEGORY_CONFIG[selectedEvent.category].icon}</span>
-                    <span>
-                      {CATEGORY_CONFIG[selectedEvent.category].label}
-                    </span>
-                  </div>
-                  <h2
-                    id="mobile-drawer-title"
-                    className="font-sans text-xl font-bold text-[#1A1A1A] leading-tight"
-                  >
-                    {selectedEvent.title}
-                  </h2>
-                  <p className="text-sm font-sans text-[#C4342D] mt-1 font-medium">
-                    {formatFullDate(selectedEvent.date)}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleCloseDrawer}
-                  className="p-2 text-[#6B6B6B] rounded-lg flex-shrink-0"
-                  aria-label="Cerrar"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Bottom Sheet Content */}
-            <div className="px-4 py-4 pb-8">
-              {selectedEvent.image && (
-                <figure className="mb-4">
-                  <img
-                    src={selectedEvent.image}
-                    alt={`Imagen histórica: ${selectedEvent.title}`}
-                    className="w-full aspect-video object-cover rounded-lg"
-                    loading="eager"
-                  />
-                  <figcaption className="text-xs font-sans italic text-[#6B6B6B] mt-2 text-center">
-                    {selectedEvent.title}
-                  </figcaption>
-                </figure>
-              )}
-
-              <div className="font-sans text-sm text-[#1A1A1A] leading-relaxed space-y-3">
-                <p>{selectedEvent.content}</p>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      {/* Drawer */}
+      <TimelineDrawer
+        selectedEvent={selectedEvent}
+        isClosing={isClosing}
+        onClose={handleCloseDrawer}
+        drawerRef={drawerRef}
+        mobileDrawerRef={mobileDrawerRef}
+        formatFullDate={formatFullDate}
+        ERA_CONFIG={ERA_CONFIG}
+        CATEGORY_CONFIG={CATEGORY_CONFIG}
+      />
     </div>
   );
 }

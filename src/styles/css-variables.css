@@ -1,0 +1,242 @@
+/**
+ * CSS Custom Properties for Timeline Peru
+ * Enables theme switching (light/dark mode) and consistent color usage
+ *
+ * Usage:
+ * @import "./css-variables.css" in global.css (before other imports)
+ */
+
+:root {
+  /* ============================================
+     COLOR SYSTEM - Light Mode (Default)
+     ============================================ */
+
+  /* Background Colors */
+  --color-bg-primary: #F5F1E8;      /* Main page background (warm beige) */
+  --color-bg-secondary: #FFFFFF;    /* Cards, drawers, modals */
+  --color-bg-tertiary: #F5F1E8;     /* Hover states, subtle fills */
+
+  /* Text Colors */
+  --color-text-primary: #1A1A1A;    /* Headings, important text */
+  --color-text-secondary: #6B6B6B;  /* Body text, labels */
+  --color-text-tertiary: #A8A8A8;   /* Placeholder, disabled */
+
+  /* Border Colors */
+  --color-border-default: #D4D4D4;  /* Standard borders */
+  --color-border-light: #E8E8E8;    /* Subtle dividers */
+  --color-border-dark: #A8A8A8;     /* Emphasized borders */
+
+  /* Accent Colors */
+  --color-accent-red: #C4342D;      /* Primary CTA, focus states */
+  --color-accent-red-hover: #A42D26; /* Hover state */
+  --color-accent-red-light: rgba(196, 52, 45, 0.1); /* Backgrounds, highlights */
+
+  /* Era Colors - Light Mode */
+  --color-era-preinca-bg: #F5E6D3;
+  --color-era-preinca-border: #D4A574;
+  --color-era-preinca-text: #8B7355;
+
+  --color-era-inca-bg: #FFE8C5;
+  --color-era-inca-border: #E6B76B;
+  --color-era-inca-text: #A67C52;
+
+  --color-era-conquista-bg: #FFD5CC;
+  --color-era-conquista-border: #E68A7A;
+  --color-era-conquista-text: #A85A4A;
+
+  --color-era-colonia-bg: #E3E3ED;
+  --color-era-colonia-border: #9999B8;
+  --color-era-colonia-text: #6B6B8B;
+
+  --color-era-republica-bg: #C9E4F0;
+  --color-era-republica-border: #6BB8DC;
+  --color-era-republica-text: #4A8BA8;
+
+  --color-era-contemporaneo-bg: #E8E2D5;
+  --color-era-contemporaneo-border: #A8987A;
+  --color-era-contemporaneo-text: #7A6B55;
+
+  /* Category Colors */
+  --color-cat-politica: #3B82F6;
+  --color-cat-politica-bg: #EFF6FF;
+
+  --color-cat-cultura: #8B5CF6;
+  --color-cat-cultura-bg: #F5F3FF;
+
+  --color-cat-economia: #10B981;
+  --color-cat-economia-bg: #ECFDF5;
+
+  --color-cat-conflictos: #C4342D;
+  --color-cat-conflictos-bg: #FEF2F2;
+
+  /* Shadow Colors */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================
+   DARK MODE - via prefers-color-scheme (fallback)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Background Colors - Dark Mode */
+    --color-bg-primary: #1A1A1A;      /* Main page background (dark) */
+    --color-bg-secondary: #242424;    /* Cards, drawers, modals */
+    --color-bg-tertiary: #2E2E2E;     /* Hover states, subtle fills */
+
+    /* Text Colors - Dark Mode */
+    --color-text-primary: #E8E4DB;    /* Headings, important text */
+    --color-text-secondary: #A8A8A8;  /* Body text, labels */
+    --color-text-tertiary: #6B6B6B;   /* Placeholder, disabled */
+
+    /* Border Colors - Dark Mode */
+    --color-border-default: #3A3A3A;  /* Standard borders */
+    --color-border-light: #2E2E2E;    /* Subtle dividers */
+    --color-border-dark: #4A4A4A;     /* Emphasized borders */
+
+    /* Accent Colors - Dark Mode (slightly brighter) */
+    --color-accent-red: #E6564D;      /* Primary CTA, focus states */
+    --color-accent-red-hover: #FF6B63; /* Hover state */
+    --color-accent-red-light: rgba(230, 86, 77, 0.2); /* Backgrounds, highlights */
+
+    /* Era Colors - Dark Mode (very subtle, low saturation) */
+    --color-era-preinca-bg: #1F1E1C;
+    --color-era-preinca-border: #5A5245;
+    --color-era-preinca-text: #B5A58A;
+
+    --color-era-inca-bg: #201F1A;
+    --color-era-inca-border: #6B5C42;
+    --color-era-inca-text: #C9B68A;
+
+    --color-era-conquista-bg: #1F1C1B;
+    --color-era-conquista-border: #6B4A42;
+    --color-era-conquista-text: #C9968A;
+
+    --color-era-colonia-bg: #1C1C1F;
+    --color-era-colonia-border: #4A4A5A;
+    --color-era-colonia-text: #8A8A9A;
+
+    --color-era-republica-bg: #1A1E20;
+    --color-era-republica-border: #3A5A6B;
+    --color-era-republica-text: #7AB0C5;
+
+    --color-era-contemporaneo-bg: #1E1D1B;
+    --color-era-contemporaneo-border: #5A5245;
+    --color-era-contemporaneo-text: #9A9080;
+
+    /* Category Colors - Dark Mode (slightly adjusted) */
+    --color-cat-politica: #60A5FA;
+    --color-cat-politica-bg: #1E3A5F;
+
+    --color-cat-cultura: #A78BFA;
+    --color-cat-cultura-bg: #2E1F5F;
+
+    --color-cat-economia: #34D399;
+    --color-cat-economia-bg: #1F4A3A;
+
+    --color-cat-conflictos: #E6564D;
+    --color-cat-conflictos-bg: #3A1F1E;
+
+    /* Shadow Colors - Dark Mode (softer, less prominent) */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* ============================================
+   EXPLICIT DARK MODE CLASS (Optional)
+   For manual theme switching via JavaScript
+   ============================================ */
+
+[data-theme="dark"] {
+  /* Same as dark mode above */
+  --color-bg-primary: #1A1A1A;
+  --color-bg-secondary: #242424;
+  --color-bg-tertiary: #2E2E2E;
+
+  --color-text-primary: #E8E4DB;
+  --color-text-secondary: #A8A8A8;
+  --color-text-tertiary: #6B6B6B;
+
+  --color-border-default: #3A3A3A;
+  --color-border-light: #2E2E2E;
+  --color-border-dark: #4A4A4A;
+
+  --color-accent-red: #E6564D;
+  --color-accent-red-hover: #FF6B63;
+  --color-accent-red-light: rgba(230, 86, 77, 0.2);
+
+  /* Era colors (same as prefers-color-scheme: dark) */
+  --color-era-preinca-bg: #1F1E1C;
+  --color-era-preinca-border: #5A5245;
+  --color-era-preinca-text: #B5A58A;
+
+  --color-era-inca-bg: #201F1A;
+  --color-era-inca-border: #6B5C42;
+  --color-era-inca-text: #C9B68A;
+
+  --color-era-conquista-bg: #1F1C1B;
+  --color-era-conquista-border: #6B4A42;
+  --color-era-conquista-text: #C9968A;
+
+  --color-era-colonia-bg: #1C1C1F;
+  --color-era-colonia-border: #4A4A5A;
+  --color-era-colonia-text: #8A8A9A;
+
+  --color-era-republica-bg: #1A1E20;
+  --color-era-republica-border: #3A5A6B;
+  --color-era-republica-text: #7AB0C5;
+
+  --color-era-contemporaneo-bg: #1E1D1B;
+  --color-era-contemporaneo-border: #5A5245;
+  --color-era-contemporaneo-text: #9A9080;
+
+  --color-cat-politica: #60A5FA;
+  --color-cat-politica-bg: #1E3A5F;
+
+  --color-cat-cultura: #A78BFA;
+  --color-cat-cultura-bg: #2E1F5F;
+
+  --color-cat-economia: #34D399;
+  --color-cat-economia-bg: #1F4A3A;
+
+  --color-cat-conflictos: #E6564D;
+  --color-cat-conflictos-bg: #3A1F1E;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================
+   UTILITY: Smooth Theme Transitions
+   ============================================ */
+
+* {
+  transition: background-color 200ms ease-out,
+              color 200ms ease-out,
+              border-color 200ms ease-out;
+}
+
+/* Disable transitions for elements that should change instantly */
+*[data-no-transition],
+.event-dot,
+.event-pulse-ring,
+.skeleton-shimmer {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

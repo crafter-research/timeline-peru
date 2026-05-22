@@ -1,10 +1,10 @@
 ---
-date: "-2850-01-01"
-title: Templo de Piedra Parada
+date: 2850-01-01
+title: Construcción del complejo Piedra Parada
 category: cultura
 era: preinca
 ---
 
-Se construye el templo de Piedra Parada en el valle de Supe, parte de la red de centros ceremoniales de la civilizacion Caral. Su nombre deriva de una gran piedra enhiesta que marcaba el sitio.
+Se construye Piedra Parada en el valle del Rímac, uno de los complejos ceremoniales más importantes de la costa central durante el período Precerámico Tardío. Sus estructuras incluyen plataformas monumentales y plazas ceremoniales, evidenciando la complejidad social alcanzada por las sociedades costeñas. Este sitio marca la transición hacia formas arquitectónicas más elaboradas.
 
-Fuente: Ruth Shady - Piedra Parada
+Fuente: Richard Burger - Piedra Parada and Coastal Development

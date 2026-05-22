@@ -5,6 +5,6 @@ category: conflictos
 era: colonia
 ---
 
-Micaela Bastidas, esposa de Tupac Amaru II, asume un rol fundamental en la organizacion de la rebelion. Coordinaba la logistica, comunicaciones y urgía a su esposo a actuar con mayor decision.
+Micaela Bastidas, esposa de Túpac Amaru II, asume un rol fundamental en la organización y dirección estratégica de la rebelión, demostrando excepcionales capacidades de liderazgo militar y político. Coordinaba la logística, las comunicaciones entre las distintas columnas rebeldes y urgía a su esposo a actuar con mayor decisión, llegando a cuestionar sus vacilaciones tácticas. Su papel como comandante en Tinta mientras Túpac Amaru dirigía operaciones en el campo fue crucial para mantener la cohesión del movimiento.
 
-Fuente: Historia de la Rebelion de Tupac Amaru II
+Fuente: Historia de la Rebelión de Túpac Amaru II; Sara Beatriz Guardia, Mujeres Peruanas: El otro lado de la historia

@@ -5,6 +5,6 @@ category: politica
 era: conquista
 ---
 
-Con la destruccion de Vilcabamba y la ejecucion de Tupac Amaru, la era de la conquista llega a su fin. Comienza la era colonial propiamente dicha, con instituciones estables que duraran hasta la independencia.
+Con la destrucción de Vilcabamba y la ejecución de Túpac Amaru I, la era de la conquista llega a su fin tras 40 años de resistencia inca. Comienza la era colonial propiamente dicha, con instituciones estables como la mita, las reducciones y el sistema de encomiendas que durarán hasta la independencia. El virrey Toledo consolida el control español sobre todo el territorio del antiguo Tahuantinsuyo.
 
-Fuente: Analisis historico
+Fuente: Historia del Virreinato del Perú, Guillermo Lohmann Villena

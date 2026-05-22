@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=Source+Sans+3:wght@400;500&display=swap");
 
 @import "tailwindcss";
+@import "./css-variables.css";
+@import "./timeline-enhancements.css";
+@import "./round4-polish.css";
 
 /* Theme Layer for Tailwind v4 */
 @theme {
@@ -595,6 +598,490 @@ button:active {
 
 @media (prefers-reduced-motion: reduce) {
   .color-transition {
+    transition: none;
+  }
+}
+
+/* ============================================
+   ERA ATMOSPHERE & PARALLAX
+   ============================================ */
+
+/* Era background subtle parallax - creates depth */
+.era-background {
+  position: relative;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 400ms ease-out;
+}
+
+.era-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  opacity: 0;
+  transition: opacity 600ms ease-out;
+}
+
+.era-background:hover::before {
+  opacity: 0.15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-background {
+    transition: none;
+  }
+
+  .era-background::before {
+    transition: none;
+  }
+}
+
+/* Era-specific atmospheric overlays */
+@keyframes preincaAtmosphere {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.era-preinca {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFF4D9 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 30s ease-in-out infinite;
+}
+
+.era-inca {
+  background: linear-gradient(135deg, #FFF4E6 0%, #FFE8D6 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 25s ease-in-out infinite;
+}
+
+.era-conquista {
+  background: linear-gradient(135deg, #FFE8E6 0%, #FFD8D6 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 20s ease-in-out infinite;
+}
+
+.era-colonia {
+  background: linear-gradient(135deg, #F0F0F5 0%, #E8E8ED 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 35s ease-in-out infinite;
+}
+
+.era-republica {
+  background: linear-gradient(135deg, #E8F4F8 0%, #D8E9ED 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 28s ease-in-out infinite;
+}
+
+.era-contemporaneo {
+  background: linear-gradient(135deg, #F5F1E8 0%, #E8E4DB 100%);
+  background-size: 200% 200%;
+  animation: preincaAtmosphere 32s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-preinca,
+  .era-inca,
+  .era-conquista,
+  .era-colonia,
+  .era-republica,
+  .era-contemporaneo {
+    animation: none;
+    background-size: 100% 100%;
+  }
+}
+
+/* Scroll hint animation */
+@keyframes scrollHint {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(8px);
+  }
+}
+
+.scroll-hint {
+  animation: scrollHint 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* Year marker animation on appear */
+@keyframes yearMarkerFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.year-marker {
+  animation: yearMarkerFade 400ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .year-marker {
+    animation: none;
+  }
+}
+
+/* Enhanced drawer backdrop blur */
+.drawer-backdrop {
+  backdrop-filter: blur(4px);
+  transition: backdrop-filter 300ms ease-out,
+              background-color 300ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-backdrop {
+    transition: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Staggered fade-in for skeleton loading */
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton-item {
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-item:nth-child(1) { animation-delay: 0ms; }
+.skeleton-item:nth-child(2) { animation-delay: 100ms; }
+.skeleton-item:nth-child(3) { animation-delay: 200ms; }
+.skeleton-item:nth-child(4) { animation-delay: 300ms; }
+.skeleton-item:nth-child(5) { animation-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-item {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* Zoom indicator animation */
+@keyframes zoomIndicatorAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.zoom-indicator {
+  animation: zoomIndicatorAppear 1.5s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom-indicator {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Enhanced button press feedback */
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button-press {
+  animation: buttonPress 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-press {
+    animation: none;
+  }
+}
+
+/* ============================================
+   ROUND 2 ENHANCEMENTS
+   ============================================ */
+
+/* Event scroll-triggered reveal animation */
+@keyframes scrollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.event-scroll-reveal {
+  animation: scrollReveal 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-scroll-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Easter egg reveal animation */
+@keyframes easterEggReveal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5) rotate(-10deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes easterEggPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.easter-egg-reveal {
+  animation: easterEggReveal 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             easterEggPulse 2s ease-in-out infinite 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .easter-egg-reveal {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Page transition fade */
+@keyframes pageTransitionFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-fade {
+  animation: pageTransitionFade 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-fade {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Empty state animations */
+@keyframes emptyStateReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.empty-state-reveal {
+  animation: emptyStateReveal 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes emptyStateIconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.empty-state-icon-bounce {
+  animation: emptyStateIconBounce 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-state-reveal {
+    animation: none;
+  }
+
+  .empty-state-icon-bounce {
+    animation: none;
+  }
+}
+
+/* Touch gesture hint animation */
+@keyframes touchHintBounce {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+}
+
+.touch-hint {
+  animation: touchHintBounce 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .touch-hint {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* Staggered reveal utility classes */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 350ms; }
+.stagger-8 { animation-delay: 400ms; }
+.stagger-9 { animation-delay: 450ms; }
+.stagger-10 { animation-delay: 500ms; }
+
+/* Success feedback animation */
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.success-feedback {
+  animation: successPulse 600ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .success-feedback {
+    animation: none;
+  }
+}
+
+/* Error shake animation */
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+.error-shake {
+  animation: errorShake 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-shake {
+    animation: none;
+  }
+}
+
+/* Loading spinner with better timing */
+@keyframes spinSmooth {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: spinSmooth 800ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: spinSmooth 3s linear infinite;
+  }
+}
+
+/* Refined timing curves for snappier feel */
+.snap-transition {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+.snap-transition-fast {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.elastic-transition {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-duration: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snap-transition,
+  .snap-transition-fast,
+  .elastic-transition {
     transition: none;
   }
 }

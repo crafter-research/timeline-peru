@@ -1,10 +1,10 @@
 ---
 date: 1882-07-09
-title: Batalla de Concepcion
+title: Batalla de Concepción
 category: conflictos
 era: republica
 ---
 
-Una guarnicion chilena es aniquilada en Concepcion, Junin, por las fuerzas de Caceres. Chile llama a los caidos "los 77 de La Concepcion" y los venera como martires.
+Una guarnición chilena de 77 soldados es aniquilada en Concepción, Junín, por las fuerzas del general Andrés Avelino Cáceres durante la Campaña de la Breña, la resistencia peruana en la sierra central. Chile llama a los caídos "los 77 de La Concepción" y los venera como mártires, mientras que para el Perú representa una victoria importante en su lucha de resistencia contra la ocupación. La batalla demuestra la efectividad de las tácticas de guerrilla de Cáceres en el difícil terreno andino.
 
-Fuente: Wikipedia - Batalla de La Concepcion
+Fuente: La Campaña de la Breña, Andrés Avelino Cáceres; Historia de la Guerra del Pacífico

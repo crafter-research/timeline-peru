@@ -5,6 +5,6 @@ category: conflictos
 era: republica
 ---
 
-El coronel Francisco Bolognesi defiende el Morro de Arica hasta la muerte junto a sus tropas, cumpliendo su promesa de pelear "hasta quemar el ultimo cartucho". Su sacrificio lo convierte en heroe nacional.
+El coronel Francisco Bolognesi defiende el Morro de Arica hasta la muerte junto a sus tropas, cumpliendo su promesa legendaria de pelear "hasta quemar el último cartucho" pronunciada en el Consejo de Guerra. Tras rechazar la rendición ofrecida por Chile, Bolognesi y sus 1,600 soldados resisten el asalto de 5,300 chilenos durante 55 minutos de combate feroz. Su sacrificio heroico en la cima del Morro lo convierte en símbolo de honor y resistencia para el Perú.
 
-Fuente: Wikipedia - Batalla de Arica
+Fuente: Historia de la Campaña de la Breña; Archivo Militar del Perú

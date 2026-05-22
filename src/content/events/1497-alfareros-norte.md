@@ -5,6 +5,6 @@ category: economia
 era: inca
 ---
 
-Huayna Capac ordena el traslado de alfareros especializados del norte ecuatoriano al Cusco. Estos artesanos dominan tecnicas de decoracion y acabado diferentes a las cusquenas. Su conocimiento enriquece la produccion ceramica imperial con nuevos estilos.
+Huayna Cápac ordena el traslado de alfareros especializados del norte ecuatoriano al Cusco. Estos artesanos dominan técnicas de decoración y acabado diferentes a las cusqueñas. Su conocimiento enriquece la producción cerámica imperial con nuevos estilos. Esta política de concentración de artesanos especializados en la capital formaba parte de la estrategia imperial de control de tecnologías y producción de bienes de prestigio. Los ceramistas trasladados producían vajilla fina para la élite y objetos ceremoniales para el culto estatal.
 
-Fuente: Cronica de Bernabe Cobo - Historia del Nuevo Mundo
+Fuente: Bernabé Cobo - Historia del Nuevo Mundo (1653); Tamara Bray - The Commensal Politics of Early States and Empires (2003)

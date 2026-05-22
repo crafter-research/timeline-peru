@@ -1,0 +1,501 @@
+/**
+ * Editorial Timeline - Design Enhancements
+ * Additional styles to refine visual hierarchy and microinteractions
+ * Import this in global.css: @import "./timeline-enhancements.css";
+ */
+
+/* ============================================
+   TYPOGRAPHY ENHANCEMENTS
+   ============================================ */
+
+/* Tabular numerals for year consistency */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Monospace year display for technical differentiation */
+.year-display {
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* ============================================
+   ERA VISUAL ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced era backgrounds with distinct colors */
+.era-background {
+  transition: opacity 400ms ease-out,
+              background-color 400ms ease-out;
+}
+
+.era-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.02) 100%);
+  pointer-events: none;
+}
+
+/* Individual era color themes */
+.era-preinca {
+  background-color: #F5E6D3;
+}
+
+.era-inca {
+  background-color: #FFE8C5;
+}
+
+.era-conquista {
+  background-color: #FFD5CC;
+}
+
+.era-colonia {
+  background-color: #E3E3ED;
+}
+
+.era-republica {
+  background-color: #C9E4F0;
+}
+
+.era-contemporaneo {
+  background-color: #E8E2D5;
+}
+
+/* Era boundary markers */
+.era-boundary {
+  position: relative;
+  opacity: 0.6;
+  transition: opacity 300ms ease-out;
+}
+
+.era-boundary:hover {
+  opacity: 1;
+}
+
+.era-boundary::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(4px);
+  opacity: 0.3;
+}
+
+/* ============================================
+   EVENT DOT ENHANCEMENTS
+   ============================================ */
+
+/* Multi-layer event dot with depth */
+.event-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 300ms ease-out;
+}
+
+.event-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%);
+  opacity: 0.8;
+}
+
+.event-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0;
+  filter: blur(8px);
+  transition: opacity 300ms ease-out;
+}
+
+.event-dot-wrapper:hover .event-dot,
+.event-dot-wrapper:focus-visible .event-dot {
+  transform: scale(2.5);
+}
+
+.event-dot-wrapper:hover .event-dot::after,
+.event-dot-wrapper:focus-visible .event-dot::after {
+  opacity: 0.4;
+}
+
+/* Pulse animation for event dots */
+@keyframes event-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.event-pulse-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: inherit;
+  animation: event-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  opacity: 0;
+}
+
+.event-dot-wrapper:hover .event-pulse-ring,
+.event-dot-wrapper:focus-visible .event-pulse-ring {
+  opacity: 1;
+}
+
+/* ============================================
+   TOOLTIP ENHANCEMENTS
+   ============================================ */
+
+/* Smooth tooltip appearance with micro-bounce */
+@keyframes tooltip-appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.tooltip-enhanced {
+  animation: tooltip-appear 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip-enhanced {
+    animation: none;
+  }
+}
+
+/* ============================================
+   SKELETON LOADING ENHANCEMENTS
+   ============================================ */
+
+/* Shimmer effect for loading states */
+@keyframes shimmer-wave {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg,
+    #D4D4D4 0%,
+    #C4C4C4 50%,
+    #D4D4D4 100%);
+  background-size: 200% 100%;
+}
+
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.6) 50%,
+    transparent 100%);
+  animation: shimmer-wave 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Pulse effect for skeleton items */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.skeleton-item {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-item {
+    animation: none;
+  }
+}
+
+/* ============================================
+   SCROLL & NAVIGATION ENHANCEMENTS
+   ============================================ */
+
+/* Smooth scroll indicator */
+.scroll-indicator {
+  position: relative;
+  height: 4px;
+  background: rgba(212, 212, 212, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scroll-indicator-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #C4342D 0%, #A42D26 100%);
+  border-radius: 2px;
+  transition: width 100ms ease-out;
+  box-shadow: 0 0 8px rgba(196, 52, 45, 0.4);
+}
+
+/* Minimap enhancements */
+.minimap-segment {
+  position: relative;
+  transition: filter 200ms ease-out,
+              transform 200ms ease-out;
+}
+
+.minimap-segment:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.minimap-segment:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ============================================
+   DRAWER & MODAL ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced backdrop with gradient */
+.drawer-backdrop {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Drawer shadow layers */
+.drawer-shadow-layered {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    0 30px 60px rgba(0, 0, 0, 0.10),
+    0 60px 120px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   CATEGORY LANE ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced hover state for category lanes */
+.category-lane-enhanced {
+  position: relative;
+  transition: background-color 300ms ease-out;
+}
+
+.category-lane-enhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(196, 52, 45, 0.06) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+  pointer-events: none;
+}
+
+.category-lane-enhanced:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced button states with proper transitions */
+.button-enhanced {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 200ms ease-out,
+    color 200ms ease-out,
+    border-color 200ms ease-out,
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 200ms ease-out;
+}
+
+.button-enhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.button-enhanced:hover::before {
+  opacity: 1;
+}
+
+.button-enhanced:active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-enhanced,
+  .button-enhanced::before {
+    transition: none;
+  }
+
+  .button-enhanced:active {
+    transform: none;
+  }
+}
+
+/* ============================================
+   FOCUS ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced focus ring with animation */
+.focus-ring-enhanced {
+  outline: none;
+  position: relative;
+}
+
+.focus-ring-enhanced::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid #C4342D;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  pointer-events: none;
+}
+
+.focus-ring-enhanced:focus-visible::after {
+  opacity: 1;
+  animation: focus-pulse 2s ease-out infinite;
+}
+
+@keyframes focus-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(196, 52, 45, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(196, 52, 45, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-ring-enhanced:focus-visible::after {
+    animation: none;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Text gradient for special labels */
+.text-gradient-peru {
+  background: linear-gradient(135deg, #C4342D 0%, #A42D26 50%, #8B2420 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle glow effect */
+.glow-subtle {
+  box-shadow: 0 0 20px rgba(196, 52, 45, 0.1);
+  transition: box-shadow 300ms ease-out;
+}
+
+.glow-subtle:hover {
+  box-shadow: 0 0 30px rgba(196, 52, 45, 0.2);
+}
+
+/* Elevation shadows */
+.elevation-1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1),
+              0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.elevation-2 {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07),
+              0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
+              0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.elevation-4 {
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1),
+              0 10px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Smooth color transitions */
+.transition-colors-smooth {
+  transition: color 200ms ease-out,
+              background-color 200ms ease-out,
+              border-color 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-colors-smooth {
+    transition: none;
+  }
+}
+
+/* Transform transitions */
+.transition-transform-smooth {
+  transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-transform-smooth {
+    transition: none;
+  }
+}

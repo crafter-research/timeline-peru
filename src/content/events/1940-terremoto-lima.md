@@ -5,6 +5,6 @@ category: conflictos
 era: republica
 ---
 
-Un terremoto de magnitud 8.2 sacude Lima y Callao, causando mas de 1,000 muertos y destruyendo miles de edificios. El desastre impulsa reformas en construccion sismorresistente.
+Un devastador terremoto de magnitud 8.2 sacude Lima y Callao a las 11:35 am, causando más de 1,000 muertos, miles de heridos y destruyendo gran parte de la infraestructura colonial de la capital. El desastre expone la vulnerabilidad de las construcciones antiguas y modernas ante movimientos sísmicos, impulsando reformas fundamentales en normas de construcción sismorresistente. La reconstrucción marca el inicio de una nueva arquitectura moderna en Lima, reemplazando muchos edificios coloniales con estructuras de concreto armado.
 
-Fuente: Instituto Geofisico del Peru
+Fuente: Instituto Geofísico del Perú; Estudios de sismología histórica del Perú

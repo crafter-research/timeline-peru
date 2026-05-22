@@ -3,24 +3,62 @@ import { getCollection, render } from "astro:content";
 import { EditorialTimeline } from "../components/EditorialTimeline";
 import Layout from "../layouts/Layout.astro";
 
-const eventsCollection = await getCollection("events");
+// BUG FIX #003: Add error handling for event loading
+let events = [];
+let loadError = null;
 
-const events = await Promise.all(
-  eventsCollection.map(async (event) => {
-    const { Content } = await render(event);
-    return {
-      id: event.id,
-      date: event.data.date,
-      title: event.data.title,
-      category: event.data.category,
-      era: event.data.era,
-      image: event.data.image,
-      content: event.body || "",
-    };
-  }),
-);
+try {
+  const eventsCollection = await getCollection("events");
+
+  events = await Promise.all(
+    eventsCollection.map(async (event) => {
+      try {
+        const { Content } = await render(event);
+
+        // Validate required fields
+        if (!event.data.date || !event.data.title || !event.data.category || !event.data.era) {
+          console.warn(`Event ${event.id} is missing required fields, skipping`);
+          return null;
+        }
+
+        return {
+          id: event.id,
+          date: event.data.date,
+          title: event.data.title,
+          category: event.data.category,
+          era: event.data.era,
+          image: event.data.image,
+          content: event.body || "",
+        };
+      } catch (err) {
+        console.error(`Error rendering event ${event.id}:`, err);
+        return null;
+      }
+    }),
+  );
+
+  // Filter out failed events
+  events = events.filter(e => e !== null);
+
+  if (events.length === 0) {
+    throw new Error("No valid events could be loaded");
+  }
+} catch (err) {
+  console.error("Critical error loading events:", err);
+  loadError = err.message || "Failed to load events";
+}
 ---
 
 <Layout>
-  <EditorialTimeline client:load events={events} />
+  {loadError ? (
+    <div class="min-h-screen flex items-center justify-center bg-[#F5F1E8] p-8">
+      <div class="max-w-2xl text-center">
+        <h1 class="text-4xl font-bold text-[#C4342D] mb-4">Error al cargar eventos</h1>
+        <p class="text-lg text-[#6B6B6B] mb-6">{loadError}</p>
+        <p class="text-sm text-[#6B6B6B]">Por favor, intenta recargar la página o contacta al administrador.</p>
+      </div>
+    </div>
+  ) : (
+    <EditorialTimeline client:load events={events} />
+  )}
 </Layout>

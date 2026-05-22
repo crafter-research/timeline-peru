@@ -1,10 +1,10 @@
 ---
-date: "-7200-01-01"
-title: Ocupacion de Santo Domingo en Paracas
+date: 7200-01-01
+title: Ocupación de Santo Domingo en Paracas
 category: cultura
 era: preinca
 ---
 
-Santo Domingo de Paracas es ocupado por grupos que explotan recursos marinos. Estos primeros habitantes de la peninsula desarrollaran gradualmente las tradiciones que culminaran en la cultura Paracas.
+Santo Domingo de Paracas es ocupado por grupos humanos que explotan los abundantes recursos marinos de la península. Estos primeros habitantes desarrollarán gradualmente las tradiciones culturales que culminarán en la sofisticada cultura Paracas, conocida por sus textiles y prácticas funerarias.
 
-Fuente: Frederic Engel - Paracas Preceramic
+Fuente: Frédéric Engel - Paracas Preceramic

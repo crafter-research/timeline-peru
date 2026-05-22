@@ -5,6 +5,6 @@ category: conflictos
 era: republica
 ---
 
-El ejercito patriota comandado por Antonio Jose de Sucre derrota al ejercito realista del virrey La Serna en la Pampa de Quinua. La Capitulacion de Ayacucho sella la independencia del Peru y pone fin a tres siglos de dominio espanol en Sudamerica continental.
+El ejército patriota comandado por Antonio José de Sucre, con 5,780 soldados, derrota decisivamente al ejército realista del virrey José de La Serna, de 9,310 hombres, en la Pampa de Quinua. La Capitulación de Ayacucho, firmada ese mismo día, sella definitivamente la independencia del Perú y pone fin a tres siglos de dominio español en Sudamérica continental. La batalla, considerada una de las más importantes de la historia americana, se resuelve en menos de tres horas con una victoria patriota aplastante que captura al propio virrey y a sus generales.
 
-Fuente: Wikipedia - Batalla de Ayacucho
+Fuente: Relación de la Batalla de Ayacucho por Antonio José de Sucre; Historia Militar del Perú

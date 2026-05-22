@@ -5,6 +5,6 @@ category: conflictos
 era: republica
 ---
 
-El monitor Huascar, al mando de Miguel Grau Seminario, es capturado en el combate de Punta Angamos. La muerte del Almirante Grau, heroe maximo de la Marina peruana, marca un punto de inflexion en la guerra.
+El monitor Huáscar, al mando de Miguel Grau Seminario, es capturado en el combate de Punta Angamos tras ser rodeado por seis buques de guerra chilenos. La muerte del Almirante Grau, héroe máximo de la Marina peruana, marca un punto de inflexión decisivo en la Guerra del Pacífico, dejando a Perú sin su principal defensa naval. Con la captura del Huáscar, Chile obtiene el control absoluto del mar, permitiendo el desembarco de tropas en territorio peruano.
 
-Fuente: Wikipedia - Combate de Angamos
+Fuente: Historia de la Guerra del Pacífico, William F. Sater; Archivo de la Marina de Guerra del Perú

@@ -1,0 +1,692 @@
+/**
+ * Round 4: Advanced Polish & Microinteractions
+ * Advanced animations, parallax, particle effects, magnetic hovers
+ */
+
+/* ============================================
+   PARALLAX EFFECTS - Subtle Depth on Scroll
+   ============================================ */
+
+/* Era backgrounds with parallax depth */
+.era-background-parallax {
+  will-change: transform;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Parallax layers for depth effect */
+.parallax-layer-1 {
+  transform: translateZ(0) scale(1);
+}
+
+.parallax-layer-2 {
+  transform: translateZ(0) scale(1.01);
+}
+
+.parallax-layer-3 {
+  transform: translateZ(0) scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-background-parallax {
+    transform: none !important;
+    transition: none;
+  }
+}
+
+/* ============================================
+   MAGNETIC HOVER EFFECTS - Event Dots
+   ============================================ */
+
+/* Magnetic attraction on hover */
+@keyframes magneticPull {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(var(--magnetic-x, 0), var(--magnetic-y, 0)) scale(1.1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.event-dot-magnetic {
+  position: relative;
+  transition: transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.event-dot-magnetic:hover {
+  transform: scale(1.2);
+}
+
+/* Magnetic field visualization */
+@keyframes magneticField {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+}
+
+.magnetic-field {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+  animation: magneticField 1.5s ease-out infinite;
+}
+
+.event-dot-wrapper:hover .magnetic-field {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-dot-magnetic,
+  .magnetic-field {
+    animation: none;
+    transition: none;
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   PARTICLE EFFECTS - Confetti Celebration
+   ============================================ */
+
+/* Confetti container */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Individual confetti particle */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confettiSwing {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(30px);
+  }
+}
+
+.confetti-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall 3s ease-out forwards,
+             confettiSwing 1s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.confetti-particle-square {
+  border-radius: 2px;
+}
+
+.confetti-particle-circle {
+  border-radius: 50%;
+}
+
+.confetti-particle-rectangle {
+  width: 6px;
+  height: 12px;
+  border-radius: 1px;
+}
+
+/* Staggered confetti delays (will be applied via JS) */
+.confetti-delay-0 { animation-delay: 0ms; }
+.confetti-delay-1 { animation-delay: 50ms; }
+.confetti-delay-2 { animation-delay: 100ms; }
+.confetti-delay-3 { animation-delay: 150ms; }
+.confetti-delay-4 { animation-delay: 200ms; }
+.confetti-delay-5 { animation-delay: 250ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-particle {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   SMOOTH ZOOM TRANSITIONS - Scale Animation
+   ============================================ */
+
+/* Enhanced zoom with momentum */
+@keyframes zoomMomentum {
+  0% {
+    transform: scale(var(--zoom-from, 1));
+  }
+  60% {
+    transform: scale(calc(var(--zoom-to, 1) * 1.02));
+  }
+  100% {
+    transform: scale(var(--zoom-to, 1));
+  }
+}
+
+.zoom-momentum {
+  animation: zoomMomentum 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Zoom indicator overlay */
+@keyframes zoomIndicatorPulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.zoom-indicator-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px 32px;
+  border-radius: 16px;
+  font-size: 48px;
+  font-weight: bold;
+  font-family: monospace;
+  pointer-events: none;
+  z-index: 1000;
+  animation: zoomIndicatorPulse 1s ease-out forwards;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom-momentum,
+  .zoom-indicator-overlay {
+    animation: none;
+  }
+}
+
+/* ============================================
+   SOUND DESIGN - Visual Feedback
+   ============================================ */
+
+/* Sound wave visualization on clicks */
+@keyframes soundWave {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+.sound-wave {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sound-wave-active {
+  animation: soundWave 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Audio enabled indicator */
+.audio-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(196, 52, 45, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 200ms ease-out,
+              background-color 200ms ease-out;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.audio-indicator:hover {
+  transform: scale(1.1);
+  background: rgba(196, 52, 45, 1);
+}
+
+.audio-indicator:active {
+  transform: scale(0.95);
+}
+
+@keyframes audioWave {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 16px;
+  }
+}
+
+.audio-wave-bar {
+  width: 2px;
+  height: 8px;
+  background: white;
+  margin: 0 1px;
+  border-radius: 1px;
+  animation: audioWave 800ms ease-in-out infinite;
+}
+
+.audio-wave-bar:nth-child(1) { animation-delay: 0ms; }
+.audio-wave-bar:nth-child(2) { animation-delay: 100ms; }
+.audio-wave-bar:nth-child(3) { animation-delay: 200ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-wave-active,
+  .audio-wave-bar {
+    animation: none;
+  }
+}
+
+/* ============================================
+   MOBILE ENHANCEMENTS - Swipe & Pull-to-Refresh
+   ============================================ */
+
+/* Pull-to-refresh indicator */
+@keyframes pullRefreshSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pull-refresh-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--pull-distance, -100%));
+  padding: 16px;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.pull-refresh-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #D4D4D4;
+  border-top-color: #C4342D;
+  border-radius: 50%;
+  animation: pullRefreshSpin 800ms linear infinite;
+}
+
+/* Swipe gesture feedback */
+@keyframes swipeFeedback {
+  0% {
+    opacity: 0;
+    transform: translateX(var(--swipe-start, 0));
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--swipe-end, 0));
+  }
+}
+
+.swipe-indicator {
+  position: absolute;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(196, 52, 45, 0.2);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.swipe-indicator-active {
+  animation: swipeFeedback 400ms ease-out;
+}
+
+/* Touch ripple effect */
+@keyframes touchRipple {
+  0% {
+    opacity: 0.6;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+.touch-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(196, 52, 45, 0.3);
+  pointer-events: none;
+  animation: touchRipple 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pull-refresh-spinner,
+  .swipe-indicator-active,
+  .touch-ripple {
+    animation: none;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU acceleration hints */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Contain layout for better performance */
+.layout-contain {
+  contain: layout style paint;
+}
+
+/* Optimize repaints */
+.optimize-repaint {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Intersection observer optimizations */
+.io-trigger {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+}
+
+/* ============================================
+   ADVANCED TIMING CURVES
+   ============================================ */
+
+/* Custom easing functions */
+.ease-bounce {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ease-elastic {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ease-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-sharp {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* ============================================
+   LOADING STATES - Advanced
+   ============================================ */
+
+/* Skeleton wave with improved performance */
+@keyframes skeletonWaveOptimized {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-optimized {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.skeleton-optimized::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  animation: skeletonWaveOptimized 1.5s ease-in-out infinite;
+  transform: translateX(-100%);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-optimized::after {
+    animation: none;
+  }
+}
+
+/* ============================================
+   MICRO-INTERACTIONS - Fine Details
+   ============================================ */
+
+/* Button press with depth */
+@keyframes buttonPressDepth {
+  0% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(0.98) translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.button-press-depth:active {
+  animation: buttonPressDepth 150ms ease-out;
+}
+
+/* Hover grow with shadow */
+.hover-grow {
+  transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 250ms ease-out;
+}
+
+.hover-grow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Focus glow animation */
+@keyframes focusGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(196, 52, 45, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(196, 52, 45, 0.1);
+  }
+}
+
+.focus-glow:focus-visible {
+  animation: focusGlow 1s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-press-depth:active,
+  .hover-grow:hover,
+  .focus-glow:focus-visible {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ============================================
+   SCROLL ENHANCEMENTS - Smoother Experience
+   ============================================ */
+
+/* Momentum scroll indicators */
+.scroll-momentum-indicator {
+  position: absolute;
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #C4342D, transparent);
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  pointer-events: none;
+}
+
+.scroll-momentum-active .scroll-momentum-indicator {
+  opacity: 0.6;
+}
+
+/* Smooth scroll snapping with visual feedback */
+.scroll-snap-visual {
+  position: relative;
+}
+
+.scroll-snap-visual::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--snap-position, 0);
+  width: 2px;
+  height: 100%;
+  background: #C4342D;
+  opacity: 0;
+  transition: opacity 200ms ease-out,
+              left 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.scroll-snap-visual.snapping::before {
+  opacity: 0.3;
+}
+
+/* ============================================
+   EASTER EGG ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced celebration with more flair */
+@keyframes celebrationBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.easter-egg-enhanced {
+  animation: celebrationBurst 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center center;
+}
+
+/* Firework effect */
+@keyframes firework {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+.firework {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: firework 1s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .easter-egg-enhanced,
+  .firework {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - Motion Safe Alternatives
+   ============================================ */
+
+/* Fallbacks for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Keep essential transitions */
+  .keep-transition {
+    transition-duration: 150ms !important;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .event-dot,
+  .magnetic-field,
+  .sound-wave {
+    border-width: 2px;
+  }
+
+  .audio-indicator {
+    border: 2px solid white;
+  }
+}

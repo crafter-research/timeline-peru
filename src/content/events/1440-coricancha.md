@@ -5,6 +5,6 @@ category: cultura
 era: inca
 ---
 
-Pachacútec ordena la reconstrucción del Coricancha (Templo del Sol) en el Cusco, transformándolo en el templo más importante del imperio. Sus muros se recubren con láminas de oro y alberga las momias de los Incas anteriores. Es el centro religioso del Tahuantinsuyo y origen de los ceques.
+Pachacútec ordena la reconstrucción monumental del Coricancha (Templo del Sol) en el Cusco, transformándolo en el templo más importante del imperio. Sus muros se recubren con láminas de oro macizo y alberga las momias veneradas de los Incas anteriores. Como centro religioso del Tahuantinsuyo y origen de los ceques (líneas sagradas), el Coricancha simboliza el poder del culto solar y la conexión divina del Sapa Inca.
 
-Fuente: Arqueología del Cusco
+Fuente: Arqueología del Cusco - Brian Bauer
