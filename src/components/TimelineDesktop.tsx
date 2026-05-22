@@ -30,6 +30,7 @@ interface TimelineDesktopProps {
   selectedEra: string | null;
   onEventClick: (event: HistoricalEvent) => void;
   onClearAllFilters: () => void;
+  onDoubleClickZoom: (clientX: number) => void;
   getEventPosition: (date: Date) => number;
   formatYear: (date: Date) => string;
   getEraForYear: (year: number) => string;
@@ -54,6 +55,7 @@ export function TimelineDesktop({
   selectedEra,
   onEventClick,
   onClearAllFilters,
+  onDoubleClickZoom,
   getEventPosition,
   formatYear,
   getEraForYear,
@@ -77,6 +79,11 @@ export function TimelineDesktop({
         style={{
           overscrollBehavior: "contain",
           WebkitOverflowScrolling: "touch",
+        }}
+        onDoubleClick={(e) => {
+          // Don't trigger zoom if clicking on an event button
+          if ((e.target as HTMLElement).closest('button')) return;
+          onDoubleClickZoom(e.clientX);
         }}
       >
         <div
